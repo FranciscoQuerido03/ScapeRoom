@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+{% load static %}
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Lobby</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{% static 'css/lobby.css' %}">
 </head>
 <body>
     <div class="lobby-container">
@@ -13,12 +14,16 @@
         <div class="player-list">
             <h2>Players:</h2>
             <ul id="players">
-                <!-- Player names will be dynamically added here -->
+                {% for player in players %}
+                    <li>{{ player.name }}</li>
+                {% empty %}
+                    <li>No players have joined yet.</li>
+                {% endfor %}
             </ul>
         </div>
         
-        <button id="start-game" disabled>Start Game</button>
+        <button id="start-game" onClick="onClick()"  style="--clr:red"><span>Start Game</span><i></i></button>
     </div>
-
+    <script src="{% static 'js/lobby.js' %}"></script>
 </body>
 </html>
