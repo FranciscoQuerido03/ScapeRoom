@@ -18,9 +18,16 @@ class Character(models.Model):
     def __str__(self):
         return self.name
 
+class Session(models.Model):
+    id = models.AutoField(primary_key=True)
+    players = models.ManyToManyField('Player')
+
+    def __str__(self):
+        return self.name
+
 class Player(models.Model):
     name = models.CharField(max_length=50)
-    character = models.ForeignKey(Character, on_delete=models.CASCADE)
+    character = models.ForeignKey(Character, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name

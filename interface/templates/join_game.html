@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Game</title>
+    <link rel="stylesheet" href="{% static 'css/join_game.css' %}">
+</head>
+<body>
+    <h1>Join Game</h1>
+    <form onsubmit="submitForm(event)" id="Main">
+        <label for="player_name">Enter your name:</label>
+        <input type="text" id="player_name" name="player_name" required>
+        <button type="submit">Entrar</button>
+    </form>
+    <script src="{% static 'js/join_game.js' %}"></script>
+</body>
+</html>
