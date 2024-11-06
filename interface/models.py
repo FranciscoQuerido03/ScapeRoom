@@ -26,6 +26,7 @@ class Session(models.Model):
         return self.name
 
 class Player(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     character = models.ForeignKey(Character, on_delete=models.CASCADE, null=True)
 

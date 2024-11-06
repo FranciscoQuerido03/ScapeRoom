@@ -1,8 +1,10 @@
 from django.views.decorators.csrf import csrf_exempt
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from django.http import JsonResponse
 from django.shortcuts import render
 from .models import Player
+import json
 
 # Create your views here.
 @csrf_exempt
@@ -50,9 +52,34 @@ def register(request):
             'player_name': f'{player_name}'
         }
     )
-    return render(request, 'lobby.html')
+    # Cria a resposta JSON com o ID do jogador
+    response_data = {'player': player.id}
+    print(response_data)
+    
+    return JsonResponse(response_data)
 
 @csrf_exempt
 def finish_game(request):
     Player.objects.all().delete()
+    return render(request, 'join_game.html')
+
+@csrf_exempt
+def leave_game(request):
+    data = json.loads(request.body)
+    player_id = data.get('player_id')
+    print(player_id)
+    player = Player.objects.get(id=player_id)
+    player_name = player.name
+    player.delete()
+
+    
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        'game_lobby', 
+        {
+            'type': 'player_left',
+            'player_name': f'{player_name}'
+        }
+    )
+
     return render(request, 'join_game.html')

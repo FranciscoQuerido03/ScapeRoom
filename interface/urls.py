@@ -8,4 +8,6 @@ urlpatterns = [
     path('wait_room/', views.render_wait_room),
     path('shared_screen/', views.render_shared),
     path('choose_char/', views.render_choose_char),
+    path('finish_game/', views.finish_game),
+    path('leave_game/', views.leave_game),
 ]
