@@ -8,12 +8,24 @@
     <link rel="stylesheet" href="{% static 'css/join_game.css' %}">
 </head>
 <body>
-    <h1>Join Game</h1>
-    <form onsubmit="submitForm(event)" id="Main">
-        <label for="player_name">Enter your name:</label>
-        <input type="text" id="player_name" name="player_name" required>
-        <button type="submit">Entrar</button>
-    </form>
+    <div class="background">
+        <img src='../../static/images/homepage.png' alt="background">
+    </div> 
+    <div class="elements">
+        <div class="metade_h1"></div>
+        <div class="metade_h2">
+            <div class="metade_v1">
+                <img src='../../static/images/the-beach-house.svg'>
+            </div>
+            <div class="metade_v2">
+                <form onsubmit="submitForm(event)" class="form">
+                    <label for="player_name">Enter your name:</label>
+                    <input type="text" id="player_name" name="player_name" required>
+                    <button type="submit"></button>
+                </form>
+            </div>
+        </div>
+    </div>
     <script src="{% static 'js/join_game.js' %}"></script>
 </body>
 </html>

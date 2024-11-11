@@ -38,11 +38,8 @@ def render_lobby_view(request):
 @csrf_exempt
 def register(request):
     player_name = request.POST.get('player_name')
-    if Player.objects.filter(name=player_name).exists():
-        print("Nome existe -> Ignorando...")
-    else:
-        player = Player.objects.create(name=player_name)
-        player.save()
+    player = Player.objects.create(name=player_name)
+    player.save()
 
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(

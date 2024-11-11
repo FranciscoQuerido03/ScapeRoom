@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Choose Character</title>
+  <link rel="stylesheet" href="{% static 'css/choose_char.css' %}">
+</head>
+<body>
+  <div class="background">
+    <img src="{% static 'images/choose_char.png' %}">
+  </div>  
+  <div class="elements">
+    <div class="characters">
+      <!-- Botões de personagens -->
+      <button id="char1" class="character-btn" data-char-id="1"></button>
+      <button id="char2" class="character-btn" data-char-id="2"></button>
+      <button id="char3" class="character-btn" data-char-id="3"></button>
+      <button id="char4" class="character-btn" data-char-id="4"></button>
+      <button id="char5" class="character-btn" data-char-id="5"></button>
+      <button id="char6" class="character-btn" data-char-id="6"></button>
+      <button id="char7" class="character-btn" data-char-id="7"></button>
+      <button id="char8" class="character-btn" data-char-id="8"></button>
+    </div>
+  </div>
+  
+  <script>
+    // Envia o id da personagem ao backend quando clicada
+    document.querySelectorAll('.character-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const characterId = button.getAttribute('data-char-id');
+        // Aqui pode-se fazer um fetch ou form submit para o backend com o characterId
+        console.log('Personagem selecionada com ID:', characterId);
+      });
+    });
+  </script>
+</body>
+</html>
