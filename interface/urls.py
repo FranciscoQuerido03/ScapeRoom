@@ -7,7 +7,7 @@ urlpatterns = [
     path('register/', views.register),
     path('wait_room/', views.render_wait_room),
     path('shared_screen/', views.render_shared),
-    path('choose_char/', views.render_choose_char),
+    path('select_char/', views.render_select_char),
     path('finish_game/', views.finish_game),
     path('leave_game/', views.leave_game),
 ]

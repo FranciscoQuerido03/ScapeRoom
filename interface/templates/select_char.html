@@ -8,11 +8,11 @@
 </head>
 <body>
   <div class="background">
-    <img src="{% static 'images/choose_char.png' %}">
+    <img src="{% static 'images/personagem.png' %}">
   </div>  
   <div class="elements">
+    <h1>Choose your character</h1>
     <div class="characters">
-      <!-- Botões de personagens -->
       <button id="char1" class="character-btn" data-char-id="1"></button>
       <button id="char2" class="character-btn" data-char-id="2"></button>
       <button id="char3" class="character-btn" data-char-id="3"></button>
@@ -24,15 +24,6 @@
     </div>
   </div>
   
-  <script>
-    // Envia o id da personagem ao backend quando clicada
-    document.querySelectorAll('.character-btn').forEach(button => {
-      button.addEventListener('click', () => {
-        const characterId = button.getAttribute('data-char-id');
-        // Aqui pode-se fazer um fetch ou form submit para o backend com o characterId
-        console.log('Personagem selecionada com ID:', characterId);
-      });
-    });
-  </script>
+  <script src="{% static 'js/select_char.js' %}"></script>
 </body>
 </html>

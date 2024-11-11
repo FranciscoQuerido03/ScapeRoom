@@ -11,7 +11,7 @@ function submitForm(event) {
     .then(data => {
         document.cookie = `player_id=${data.player}`;
 
-        window.location.href = 'http://localhost:8000/wait_room/';
+        window.location.href = 'http://localhost:8000/select_char/';
     })
     .catch(error => {
         console.error('Erro:', error);

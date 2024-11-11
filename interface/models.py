@@ -11,7 +11,8 @@ class Room(models.Model):
         return self.name
 
 class Character(models.Model):
-    name = models.CharField(max_length=50)
+    id = models.AutoField(primary_key=True)
+    rule = models.CharField(max_length=50)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     skin = models.ImageField(upload_to='skins/', default='skins/default.png')
 

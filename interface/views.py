@@ -6,6 +6,16 @@ from django.shortcuts import render
 from .models import Player
 import json
 
+# acoes_personagem = [
+#     "Só falar na negativa",
+#     "Só falar na positiva",
+#     "Só falar em perguntas",
+#     "Só falar em exclamações",
+#     "Só falar em ordens",
+# ]
+
+# acoes_used = []
+
 # Create your views here.
 @csrf_exempt
 def render_room(request):
@@ -27,8 +37,8 @@ def render_shared(request):
     return render(request, 'shared_screen.html')
 
 @csrf_exempt
-def render_choose_char(request):
-    return render(request, 'choose_char.html')
+def render_select_char(request):
+    return render(request, 'select_char.html')
 
 @csrf_exempt
 def render_lobby_view(request):
@@ -64,7 +74,6 @@ def finish_game(request):
 def leave_game(request):
     data = json.loads(request.body)
     player_id = data.get('player_id')
-    print(player_id)
     player = Player.objects.get(id=player_id)
     player_name = player.name
     player.delete()
