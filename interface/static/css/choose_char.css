@@ -1,0 +1,36 @@
+.characters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    padding: 2rem;
+  }
+  
+  .character-btn {
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .character-btn:hover {
+    transform: scale(1.1);
+  }
+  
+  .character-btn:active {
+    transform: scale(0.95);
+  }
+
+  
+  #char1 { background-image: url('../../static/images/char1.png'); }
+  #char2 { background-image: url('../../static/images/char2.png'); }
+  #char3 { background-image: url('../../static/images/char3.png'); }
+  #char4 { background-image: url('../../static/images/char4.png'); }
+  #char5 { background-image: url('../../static/images/char5.png'); }
+  #char6 { background-image: url('../../static/images/char6.png'); }
+  #char7 { background-image: url('../../static/images/char7.png'); }
+  #char8 { background-image: url('../../static/images/char8.png'); }
+  
