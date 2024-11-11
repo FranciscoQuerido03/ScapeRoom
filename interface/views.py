@@ -3,10 +3,19 @@ from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from django.http import JsonResponse
 from django.shortcuts import render
-from .models import Player
+from .models import Player, Character
 import json
 
-# Create your views here.
+Acoes = [
+    "So pode falar sim e nao",
+    "So gestos",
+    "assd",
+    "asssd"
+]
+
+Acoes_used = []
+
+
 @csrf_exempt
 def render_room(request):
     player =  Player.objects.filter(request.GET.get('player'))
@@ -38,11 +47,8 @@ def render_lobby_view(request):
 @csrf_exempt
 def register(request):
     player_name = request.POST.get('player_name')
-    if Player.objects.filter(name=player_name).exists():
-        print("Nome existe -> Ignorando...")
-    else:
-        player = Player.objects.create(name=player_name)
-        player.save()
+    player = Player.objects.create(name=player_name)
+    player.save()
 
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(
@@ -57,6 +63,38 @@ def register(request):
     print(response_data)
     
     return JsonResponse(response_data)
+
+@csrf_exempt
+def associate_char(request):
+    player = Player.objects.get(request.Post.get('player_id'))
+    character = Character.objects.get(request.Post.get('character_id'))
+
+    acao = Acoes[0]
+
+    for i in range(len(Acoes)): 
+        if i not in Acoes_used:
+            Acoes_used.append(i)
+            acao = Accoes[i]
+            break
+    
+    image_url = character.skin.url
+    character.rule = acao
+
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        'game_lobby', 
+        {
+            'type': 'select_character',
+            'character_id': character.id
+        }
+    )
+
+    # Cria a resposta JSON com o ID do jogador
+    response_data = {'character_acao': f'{acao}', 'character_image': image_url}
+    print(response_data)
+    
+    return JsonResponse(response_data)
+
 
 @csrf_exempt
 def finish_game(request):
