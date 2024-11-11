@@ -75,6 +75,11 @@ body {
     transform: scale(0.95);
   }
 
+  .character-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   
   #char1 { background-image: url('../../static/images/char1.png'); }
   #char2 { background-image: url('../../static/images/char2.png'); }

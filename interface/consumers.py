@@ -53,6 +53,15 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                         'player_name': player_name
                     }
                 )
+            elif 'character_id' in data:
+                character_id = data['character_id']
+                await self.channel_layer.group_send(
+                    self.lobby_group_name,
+                    {
+                        'type': 'select_character',
+                        'character_id': character_id
+                    }
+                )
 
     async def player_joined(self, event):
         player_name = event['player_name']
@@ -75,3 +84,12 @@ class LobbyConsumer(AsyncWebsocketConsumer):
             'type': 'player_left',
             'player_name': player_name
         }))
+
+    async def select_character(self, event):
+        character_id = event['character_id']
+
+        await self.send(text_data=json.dumps({
+            'type': 'select_character',
+            'character_id': character_id
+        })
+        )

@@ -12,12 +12,9 @@ class Room(models.Model):
 
 class Character(models.Model):
     id = models.AutoField(primary_key=True)
-    rule = models.CharField(max_length=50)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    skin = models.ImageField(upload_to='skins/', default='skins/default.png')
-
-    def __str__(self):
-        return self.name
+    rule = models.CharField(max_length=50, null=True)
+    # room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    skin = models.ImageField(upload_to='skins/')
 
 class Session(models.Model):
     id = models.AutoField(primary_key=True)
