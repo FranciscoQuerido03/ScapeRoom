@@ -8,7 +8,7 @@ urlpatterns = [
     path('lobby/', views.render_lobby_view),
     path('register/', views.register),
     path('charAtribute/', views.associate_char),
-    path('wait_room/', views.render_wait_room),
+    path('wait_room/', views.render_wait_room, name='wait_room'),
     path('shared_screen/', views.render_shared),
     path('select_char/', views.render_select_char),
     path('char_specs/<str:char_rule>/<path:char_url>/', views.render_char_specs, name='char_specs'),

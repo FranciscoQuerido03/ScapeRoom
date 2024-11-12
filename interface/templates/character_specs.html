@@ -1,14 +1,29 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleção de Personagem</title>
+    <link rel="stylesheet" href="{% static 'css/char_specs.css' %}">
 </head>
 <body>
-    <h1>Você selecionou um personagem</h1>
-    
-    <img src="{{ character_image }}" alt="Imagem do personagem">
-    <p>Regra do personagem: {{ character_acao }}</p>
+
+    <div class="background">
+        <img src="{% static 'images/personagem.png' %}">
+    </div>
+
+    <div class="infos">
+        <img src="{{ character_image }}" alt="Imagem do personagem" class="avatar">
+            
+        <div class="texto">
+            <h3>Character Challenges</h3>
+            <p>{{ character_acao }}</p>
+            <form action="{% url 'wait_room' %}" method="get">
+                <button type="submit"></button>
+            </form>
+        </div>
+    </div>
+
 </body>
 </html>
