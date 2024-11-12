@@ -3,9 +3,8 @@ from django.db import models
 class Room(models.Model):
     name = models.CharField(max_length=50)
     ocupied = models.BooleanField(default=False)
-    perms = models.IntegerField(default=0)
-    # skin = models.ImageField(upload_to='skins/', default='skins/default.png')
-
+    perms = models.BooleanField(default=False)
+    skin = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
 
     def __str__(self):
         return self.name

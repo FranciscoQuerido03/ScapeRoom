@@ -15,12 +15,12 @@ socket.addEventListener('open', function() {
 // Ouvir mensagens do WebSocket
 socket.addEventListener('message', function (event) {
     const data = JSON.parse(event.data);
-    console.log('Mensagem do servidor:', data);  // Verificar o conteúdo da mensagem
+    console.log('Mensagem do servidor:', data);
 
-    // Verificar se a mensagem indica que o jogo começou
     if (data.type === 'start_game') {
+        const roomName = getCookie('room_name');
         console.log('Iniciando redirecionamento para /choose_char');
-        window.location.href = '/choose_char/';
+        window.location.href = `/game/${roomName}`;
     }
 });
 

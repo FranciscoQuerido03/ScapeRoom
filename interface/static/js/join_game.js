@@ -10,7 +10,7 @@ function submitForm(event) {
     .then(response => response.json()) 
     .then(data => {
         document.cookie = `player_id=${data.player}`;
-
+        
         window.location.href = 'http://localhost:8000/select_char/';
     })
     .catch(error => {

@@ -2,7 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from channels.layers import get_channel_layer
 from django.shortcuts import render, redirect
 from asgiref.sync import async_to_sync
-from .models import Player, Character
+from .models import Player, Character, Room
 from django.http import JsonResponse
 from urllib.parse import quote
 import json
@@ -82,10 +82,22 @@ def associate_char(request):
         player_id = data.get('playerId')
         character_id = data.get('characterId')
 
+        print(player_id)
+
         player = Player.objects.get(id=player_id)
         character = Character.objects.get(id=character_id)
 
         player.character = character
+
+        room = Room.objects.filter(perms=False, ocupied=False).first() #Perms = false significa sala incial para mudança de sala procurar pelas perms = true
+        print(room.name)
+
+        if room:
+            room.ocupied = True
+            room.save()
+
+            room_name = room.name
+            room_url = room.skin.url
 
         for i in Acoes: 
             if i not in Acoes_used:
@@ -112,6 +124,7 @@ def associate_char(request):
         context = {
             'character_acao': acao,
             'character_image': image_url,
+            'room_name': room_name,
         }
 
         return JsonResponse(context)
@@ -119,6 +132,7 @@ def associate_char(request):
 @csrf_exempt
 def finish_game(request):
     Player.objects.all().delete()
+    Room.objects.update(ocupied=False)
     return render(request, 'join_game.html')
 
 @csrf_exempt
@@ -140,3 +154,16 @@ def leave_game(request):
     )
 
     return render(request, 'join_game.html')
+
+
+@csrf_exempt
+def render_game_room(request, room_name):
+
+    room = Room.objects.filter(name=room_name).first()
+
+    context = {
+        'room_name': room_name,
+        'room_skin': room.skin.url,
+    }
+    
+    return render(request, 'game_room.html', context)
