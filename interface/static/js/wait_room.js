@@ -32,20 +32,6 @@ socket.addEventListener('error', function(error) {
 // Listener para fechamento da conexão WebSocket
 socket.addEventListener('close', function(event) {
     console.error('WebSocket closed:', event);
-    sendDisconnectRequest();
 });
 
-// Adicionar evento `beforeunload` para enviar a requisição antes da página ser descarregada
-window.addEventListener('beforeunload', sendDisconnectRequest);
 
-// Função para enviar requisição de desconexão ao backend
-function sendDisconnectRequest() {
-    const playerId = getCookie('player_id'); // Altere 'player_id' para o nome correto do cookie
-
-    if (playerId) {
-        navigator.sendBeacon('http://localhost:8000/leave_game/', JSON.stringify({ player_id: playerId }));
-        console.log('ID do jogador enviado ao backend usando sendBeacon');
-    } else {
-        console.error('ID do jogador não encontrado nos cookies');
-    }
-}

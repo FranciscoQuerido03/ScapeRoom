@@ -13,7 +13,7 @@ urlpatterns = [
     path('select_char/', views.render_select_char),
     path('char_specs/<str:char_rule>/<path:char_url>/', views.render_char_specs, name='char_specs'),
     path('finish_game/', views.finish_game),
-    path('leave_game/', views.leave_game),
+    # path('leave_game/', views.leave_game),
     path('game/<str:room_name>/', views.render_game_room, name='game_room'),
     path('room_hint/<str:room_name>/', views.room_hint, name='room_hint'),
     path('room_puzzle/<str:room_name>/', views.room_puzzle, name='room_puzzle'),

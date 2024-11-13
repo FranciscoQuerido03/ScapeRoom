@@ -34,7 +34,27 @@ def render_wait_room(request):
 
 @csrf_exempt
 def render_shared(request):
-    return render(request, 'shared_screen.html')
+    players = Player.objects.all()
+    rooms = {
+        "Bercario": None,
+        "Escritorio": None,
+        "CasaDeBanho": None,
+        "Cozinha": None,
+        "Sala": None,
+        "Sotao": None,
+        "Quarto": None,
+        "Garagem": None,
+    }
+
+    for player in players:
+        room_name = player.character.room.name
+        if room_name in rooms:  # Apenas se o nome da sala estiver na lista
+            rooms[room_name] = {
+                'name': player.name,
+                'skin_url': player.character.skin.url
+            }
+
+    return render(request, 'shared_screen.html', {'rooms': rooms})
 
 @csrf_exempt
 def render_select_char(request):
@@ -87,10 +107,13 @@ def associate_char(request):
         player = Player.objects.get(id=player_id)
         character = Character.objects.get(id=character_id)
 
-        player.character = character
 
         room = Room.objects.filter(perms=False, ocupied=False).first() #Perms = false significa sala incial para mudança de sala procurar pelas perms = true
         print(room.name)
+
+        character.room = room
+
+        player.character = character
 
         if room:
             room.ocupied = True
@@ -108,6 +131,8 @@ def associate_char(request):
 
         image_url = character.skin.url
         character.rule = acao
+
+        player.save()
         character.save()
 
         # Envia uma mensagem ao WebSocket (presumindo que a parte do WebSocket esteja funcionando)
@@ -135,25 +160,25 @@ def finish_game(request):
     Room.objects.update(ocupied=False)
     return render(request, 'join_game.html')
 
-@csrf_exempt
-def leave_game(request):
-    data = json.loads(request.body)
-    player_id = data.get('player_id')
-    player = Player.objects.get(id=player_id)
-    player_name = player.name
-    player.delete()
+# @csrf_exempt
+# def leave_game(request):
+#     data = json.loads(request.body)
+#     player_id = data.get('player_id')
+#     player = Player.objects.get(id=player_id)
+#     player_name = player.name
+#     player.delete()
 
     
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        'game_lobby', 
-        {
-            'type': 'player_left',
-            'player_name': f'{player_name}'
-        }
-    )
+#     channel_layer = get_channel_layer()
+#     async_to_sync(channel_layer.group_send)(
+#         'game_lobby', 
+#         {
+#             'type': 'player_left',
+#             'player_name': f'{player_name}'
+#         }
+#     )
 
-    return render(request, 'join_game.html')
+#     return render(request, 'join_game.html')
 
 
 @csrf_exempt

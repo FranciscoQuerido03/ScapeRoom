@@ -14,7 +14,7 @@ class Room(models.Model):
 class Character(models.Model):
     id = models.AutoField(primary_key=True)
     rule = models.CharField(max_length=50, null=True)
-    # room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True, default=None)   
     skin = models.ImageField(upload_to='skins/')
 
 class Session(models.Model):

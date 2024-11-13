@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 
 *{
     margin: 0;
@@ -6,6 +7,31 @@
     overflow-y: hidden;
 }
 
+.elements{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+.timer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 14vh;
+    right: 7vw;
+    color: white;
+    background-color: #9E2A2B;
+    z-index: 100;
+    font-size: 3.5rem;
+    font-family: Poppins;
+    font-weight: bold;
+    border:0.5rem solid black;
+    margin: 0;
+    padding: 0.2rem;
+    min-width: 6rem;
+    width: 15vw;
+}
 .elements{
     z-index: 100;
     position: absolute;
@@ -35,10 +61,28 @@
 .room {
     position: absolute;
     transition: background-color 0.3s;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
 }
 
-#room1 {
+.room_info {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Poppins;
+    padding: 1rem;
+}
+
+.room_info img {
+    width: 50%;
+    height: 50%;
+}
+
+#Bercario {
     clip-path: polygon(0% 25%, 90% 0%, 82% 100%, 8% 100%);
     background-color: #33cc69;
     top: 49%;
@@ -48,7 +92,7 @@
 
 }
 
-#room2 {
+#Escritorio {
     clip-path: polygon(6% 20%, 85% 2%, 100% 100%, 0% 100%);
     background-color: #33cc69;
     top: 43.3%;
@@ -57,7 +101,7 @@
     height: 29.3%;
 }
 
-#room3 {
+#CasaDeBanho {
     clip-path: polygon(0% 10%, 76% 0%, 76% 80%, 15% 80%);
     background-color: #ADFF2F;
     top: 39%;
@@ -66,7 +110,7 @@
     height: 42%;
 }
 
-#room4 {
+#Cozinha {
     clip-path: polygon(1% 0%, 80% 0%, 76% 40%, 100% 100%, 11% 100%);
     background-color: #87CEEB;
     top: 74.5%;
@@ -75,7 +119,7 @@
     height: 25.5%;
 }
 
-#room7 {
+#Sotao {
     clip-path: polygon(16% 10%, 81% 0%, 92% 100%, 10% 75%);
     background-color: black;
     top: 39%;
@@ -84,7 +128,7 @@
     height: 25.5%;
 }
 
-#room8 {
+#Quarto {
     clip-path: polygon(0% 0%, 95% 40%, 92.5% 88%, 0% 100%);
     background-color: white;
     top: 56%;
@@ -93,7 +137,7 @@
     height: 30.5%;
 }
 
-#room9 {
+#Garagem {
     clip-path: polygon(0% 27%, 92% 1%, 89.5% 100%, 0% 100%);
     background-color: brown;
     bottom: 0%;
