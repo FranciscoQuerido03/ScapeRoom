@@ -4,10 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seleção de Personagem</title>
+    <title>{{ room_name }}</title>
+    <link rel="stylesheet" href="{% static 'css/game_room.css' %}">
 </head>
 <body>
-    <p>{{ room_name }}</p>
-    <img src="{{ room_skin }}" alt="Imagem do personagem" class="avatar">
+    <div class="background">
+        <img src="{{ room_skin }}">
+    </div>
+
+    {% if room_name == 'Cozinha' %}
+        <a href="{% url 'room_hint' room_name=room_name %}" class="hint_cozinha"></a>
+        <a href="{% url 'room_puzzle' room_name=room_name %}" class="puzzle_cozinha"></a>
+    {% elif room_name == 'Sala' %}
+        <a href="{% url 'room_hint' room_name=room_name %}" class="hint_sala"></a>
+        <a href="{% url 'room_puzzle' room_name=room_name %}" class="puzzle_sala"></a>
+    {% else %}
+        <a href="javascript:history.back()" class="back-button"></a>
+    {% endif %}
+
 </body>
 </html>

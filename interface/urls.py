@@ -15,4 +15,6 @@ urlpatterns = [
     path('finish_game/', views.finish_game),
     path('leave_game/', views.leave_game),
     path('game/<str:room_name>/', views.render_game_room, name='game_room'),
+    path('room_hint/<str:room_name>/', views.room_hint, name='room_hint'),
+    path('room_puzzle/<str:room_name>/', views.room_puzzle, name='room_puzzle'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

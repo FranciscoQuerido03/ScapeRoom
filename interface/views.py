@@ -167,3 +167,29 @@ def render_game_room(request, room_name):
     }
     
     return render(request, 'game_room.html', context)
+
+
+@csrf_exempt
+def room_hint(request, room_name):
+
+    room = Room.objects.filter(name=room_name).first()
+
+    context = {
+        'room_name': 'room_name',
+        'room_skin': room.skin_hint.url,
+    }
+
+    return render(request, 'game_room.html', context)
+
+
+@csrf_exempt
+def room_puzzle(request, room_name):
+
+    room = Room.objects.filter(name=room_name).first()
+
+    context = {
+        'room_name': 'room_name',
+        'room_skin': room.skin_puzzle.url,
+    }
+
+    return render(request, 'game_room.html', context)

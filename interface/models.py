@@ -5,6 +5,8 @@ class Room(models.Model):
     ocupied = models.BooleanField(default=False)
     perms = models.BooleanField(default=False)
     skin = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
+    skin_hint = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
+    skin_puzzle = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
 
     def __str__(self):
         return self.name
