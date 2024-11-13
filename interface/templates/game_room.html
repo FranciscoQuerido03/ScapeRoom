@@ -13,14 +13,31 @@
     </div>
 
     {% if room_name == 'Cozinha' %}
-        <a href="{% url 'room_hint' room_name=room_name %}" class="hint_cozinha"></a>
-        <a href="{% url 'room_puzzle' room_name=room_name %}" class="puzzle_cozinha"></a>
+    
+        <a href="javascript:void(0)" class="hint_cozinha" onclick="openModal('hintModal')"></a>
+        <a href="javascript:void(0)" class="puzzle_cozinha" onclick="openModal('puzzleModal')"></a>
+
     {% elif room_name == 'Sala' %}
-        <a href="{% url 'room_hint' room_name=room_name %}" class="hint_sala"></a>
-        <a href="{% url 'room_puzzle' room_name=room_name %}" class="puzzle_sala"></a>
+
+        <a href="javascript:void(0)" class="hint_sala" onclick="openModal('hintModal')"></a>
+        <a href="javascript:void(0)" class="puzzle_sala" onclick="openModal('puzzleModal')"></a>
+
     {% else %}
         <a href="javascript:history.back()" class="back-button"></a>
     {% endif %}
 
+    <div id="hintModal" class="modal">
+        <div class="modal-content">
+            <img src="{{ room_hint_skin }}" alt="Dica ampliada">
+        </div>
+    </div>
+
+    <div id="puzzleModal" class="modal">
+        <div class="modal-content">
+            <img src="{{ room_puzzle_skin }}" alt="Puzzle ampliado">
+        </div>
+    </div>
+
+    <script src="{% static 'js/game_room.js' %}"></script>
 </body>
 </html>
