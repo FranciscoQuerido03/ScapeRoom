@@ -9,9 +9,13 @@ function submitForm(event) {
     })
     .then(response => response.json()) 
     .then(data => {
+        console.log(data);
+
         document.cookie = `player_id=${data.player}`;
         
-        window.location.href = 'http://localhost:8000/select_char/';
+        setTimeout(() => {
+            window.location.href = 'http://localhost:8000/select_char/';
+        }, 1000); 
     })
     .catch(error => {
         console.error('Erro:', error);
