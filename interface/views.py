@@ -90,7 +90,7 @@ def register(request):
 def associate_char(request):
     if request.method == 'POST':
         # Decodificar o corpo JSON da requisição
-        data = json.loads(request.body.decode('utf-8'))
+        data = json.loads(request.body)
         player_id = data.get('playerId')
         character_id = data.get('characterId')
 
