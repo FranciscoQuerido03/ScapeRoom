@@ -1,11 +1,23 @@
 from django.views.decorators.csrf import csrf_exempt
 from channels.layers import get_channel_layer
 from django.shortcuts import render, redirect
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from asgiref.sync import async_to_sync
 from .models import Player, Character, Room
 from django.http import JsonResponse
 from urllib.parse import quote
 import json
+
+Access_Code = {
+    'Cozinha' : 'cYxICODn1fkb',
+    'Sala' : 'zlqE44O6cr9Z',
+    'Quarto' : 'y2bwIsMuoxqX',
+    'Garagem' : '0ynZXbTMmh0x',
+    'Zona da brincadeira' : 'Xxyowi5wEloR',
+    'Casa de banho' : 'ONLh8LwgN8oN',
+    'Escritorio' : 'BAlzmc9z282p',
+    'Berçario' : 'MZlqqrfMoKZv',
+}
 
 Acoes = [
     "So pode falar sim e nao",
@@ -120,11 +132,14 @@ def associate_char(request):
             }
         )
 
+        key = Access_Code[room_name]
+
         # Preparando o contexto para enviar para o template
         context = {
             'character_acao': acao,
             'character_image': image_url,
             'room_name': room_name,
+            'key': key,
         }
 
         return JsonResponse(context)
@@ -132,6 +147,7 @@ def associate_char(request):
 @csrf_exempt
 def finish_game(request):
     Player.objects.all().delete()
+    Character.objects.update(rule='default')
     Room.objects.update(ocupied=False)
     return render(request, 'join_game.html')
 
@@ -157,39 +173,26 @@ def leave_game(request):
 
 
 @csrf_exempt
-def render_game_room(request, room_name):
+def render_game_room(request, room_name, key):
+
+    if room_name not in Access_Code or key != Access_Code[room_name]:
+        if key in Access_Code.values():
+            room_name = next(room for room, code in Access_Code.items() if code == key)
+        else:
+            print("Tentativa de malandragem")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
     room = Room.objects.filter(name=room_name).first()
+
+    if not room:
+        print("Erro na sala")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
     context = {
         'room_name': room_name,
         'room_skin': room.skin.url,
+        'room_hint_skin': room.skin_hint.url,
+        'room_puzzle_skin': room.skin_puzzle.url,
     }
     
-    return render(request, 'game_room.html', context)
-
-
-@csrf_exempt
-def room_hint(request, room_name):
-
-    room = Room.objects.filter(name=room_name).first()
-
-    context = {
-        'room_name': 'room_name',
-        'room_skin': room.skin_hint.url,
-    }
-
-    return render(request, 'game_room.html', context)
-
-
-@csrf_exempt
-def room_puzzle(request, room_name):
-
-    room = Room.objects.filter(name=room_name).first()
-
-    context = {
-        'room_name': 'room_name',
-        'room_skin': room.skin_puzzle.url,
-    }
-
     return render(request, 'game_room.html', context)

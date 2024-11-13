@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 
+* {
+  margin: 0;
+}
+
 body {
   height: 100vh;
   overflow: hidden;
@@ -74,4 +78,38 @@ body {
     right: 2vw;
     width: 6vw; 
     height: 11vh;
+}
+
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  position: relative;
+  width: 35vw;
+  height: 45vh;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content img {
+  width: 100%;
+  height: 100%;
+}
+
+.hint_cozinha, .puzzle_cozinha, .hint_sala, .puzzle_sala {
+  cursor: url('../images/lupa.png'), auto;
 }

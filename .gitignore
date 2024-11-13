@@ -58,8 +58,8 @@ cover/
 # Django stuff:
 *.log
 local_settings.py
-#db.sqlite3
-#db.sqlite3-journal
+db.sqlite3
+db.sqlite3-journal
 
 # Flask stuff:
 instance/
@@ -155,7 +155,7 @@ cython_debug/
 
 
 # My things
-# media
+media
 
 
 # PyCharm

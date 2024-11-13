@@ -19,8 +19,10 @@ socket.addEventListener('message', function (event) {
 
     if (data.type === 'start_game') {
         const roomName = getCookie('room_name');
+        const key = getCookie('key');
+
         console.log('Iniciando redirecionamento para /choose_char');
-        window.location.href = `/game/${roomName}`;
+        window.location.href = `/game/${roomName}/${key}`;
     }
 });
 

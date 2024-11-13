@@ -3,7 +3,7 @@ from django.db import models
 class Room(models.Model):
     name = models.CharField(max_length=50)
     ocupied = models.BooleanField(default=False)
-    perms = models.BooleanField(default=False)
+    perms = models.BooleanField(default=False) #Perms = 0 -> Sala inicial Perms = 1 -> 2nd Sala
     skin = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
     skin_hint = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
     skin_puzzle = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
