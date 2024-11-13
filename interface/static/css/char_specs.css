@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #1e1e2f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+  
+.background {
+    z-index: 0;
+    position: relative;
+}
+  
+.background img{
+    width: 100vw;
+    height: 100vh;
+}
+
+.infos {
+    position: absolute;
+    display: flex;
+    flex-direction: row;              
+    justify-content: center;      
+    align-items: center;              
+    gap: 50px;                       
+    margin: 20px;
+    width: 55%;
+    height: 25%;
+}
+
+.avatar {
+    width: 12vw;                     
+    max-width: 12vw;
+    height: 12vw;                    
+    flex: 1;
+}
+
+.texto {
+    display: flex;
+    flex-direction: column;           
+    align-items: flex-start;         
+    color: white;
+    font-family: Poppins;
+    flex: 2;
+}
+
+h3 {
+    margin: 0 0 10px 0;               
+    font-size: 1.5vw;                
+}
+
+p {
+    font-size: 1vw;                 
+    margin: 0;                        
+    line-height: 1.5;                 
+}
+
+button {
+    background-image: url('../../static/images/next.svg');
+    background-size: 100%;
+    background-color: #f5f5f500;
+    border: none;
+    width: 9.875rem;
+    height: 2.938rem;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgb(0, 0, 0);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    margin-top: 2vw;  
+}
+
+button:active {
+    box-shadow: none;
+    transform: translate(2px, 2px);
+}

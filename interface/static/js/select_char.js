@@ -50,6 +50,9 @@ document.querySelectorAll('.character-btn').forEach(button => {
       if (response.ok) {
         const data = await response.json();
         console.log('data: ', data);
+
+        document.cookie = `room_name=${data.room_name}; path=/;`;
+
         const url = `http://localhost:8000/char_specs/${data.character_acao}/${data.character_image}`;
         console.log('Url: ', url);
         window.location.href = url;

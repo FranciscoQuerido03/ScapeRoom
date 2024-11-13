@@ -2,31 +2,33 @@
 {% load static %}
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shared Screen</title>
   <link rel="stylesheet" href="{% static 'css/shared_screen.css' %}">
-  <script src="{% static 'js/timer.js' %}"></script>
 </head>
 <body>
   <div class="background">
-    <img src='../../static/images/shared-screen.png' alt="background">
+    <img src="{% static 'images/shared-screen.png' %}">
   </div>  
   <div class="elements">
     <div class="timer"></div>
     <div class="house">
-      <div class="room" id="room1"></div>
-      <div class="room" id="room2"></div>
-      <div class="room" id="room3"></div>
-      <div class="room" id="room4"></div>
-      <div class="room" id="room5"></div>
-      <div class="room" id="room6"></div>
-      <div class="room" id="room7"></div>
-      <div class="room" id="room8"></div>
-      <div class="room" id="room9"></div>
+      {% for room_id, data in rooms.items %}
+        <div class="room" id="{{ room_id }}">
+          {% if data %}
+          <div class="room_info">
+            <img src="{{ data.skin_url }}" class="character-image">
+            <p class="character-name">{{ data.name }}</p>
+          </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
   </div>
-  </div>
-  
+  <div id="sounds" 
+    data-start-sound="{% static 'sounds/inicio.wav' %}"
+    data-half-sound="{% static 'sounds/metade.wav' %}"
+    data-one-minute-sound="{% static 'sounds/minuto.wav' %}">
+</div>
+  <script src="{% static 'js/timer.js' %}"></script>
 </body>
 </html>

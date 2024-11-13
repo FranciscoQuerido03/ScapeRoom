@@ -2,7 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from channels.layers import get_channel_layer
 from django.shortcuts import render, redirect
 from asgiref.sync import async_to_sync
-from .models import Player, Character
+from .models import Player, Character, Room
 from django.http import JsonResponse
 from urllib.parse import quote
 import json
@@ -34,7 +34,27 @@ def render_wait_room(request):
 
 @csrf_exempt
 def render_shared(request):
-    return render(request, 'shared_screen.html')
+    players = Player.objects.all()
+    rooms = {
+        "Bercario": None,
+        "Escritorio": None,
+        "CasaDeBanho": None,
+        "Cozinha": None,
+        "Sala": None,
+        "Sotao": None,
+        "Quarto": None,
+        "Garagem": None,
+    }
+
+    for player in players:
+        room_name = player.character.room.name
+        if room_name in rooms:  # Apenas se o nome da sala estiver na lista
+            rooms[room_name] = {
+                'name': player.name,
+                'skin_url': player.character.skin.url
+            }
+
+    return render(request, 'shared_screen.html', {'rooms': rooms})
 
 @csrf_exempt
 def render_select_char(request):
@@ -78,14 +98,29 @@ def register(request):
 def associate_char(request):
     if request.method == 'POST':
         # Decodificar o corpo JSON da requisição
-        data = json.loads(request.body.decode('utf-8'))
+        data = json.loads(request.body)
         player_id = data.get('playerId')
         character_id = data.get('characterId')
+
+        print(player_id)
 
         player = Player.objects.get(id=player_id)
         character = Character.objects.get(id=character_id)
 
+
+        room = Room.objects.filter(perms=False, ocupied=False).first() #Perms = false significa sala incial para mudança de sala procurar pelas perms = true
+        print(room.name)
+
+        character.room = room
+
         player.character = character
+
+        if room:
+            room.ocupied = True
+            room.save()
+
+            room_name = room.name
+            room_url = room.skin.url
 
         for i in Acoes: 
             if i not in Acoes_used:
@@ -96,6 +131,8 @@ def associate_char(request):
 
         image_url = character.skin.url
         character.rule = acao
+
+        player.save()
         character.save()
 
         # Envia uma mensagem ao WebSocket (presumindo que a parte do WebSocket esteja funcionando)
@@ -112,6 +149,7 @@ def associate_char(request):
         context = {
             'character_acao': acao,
             'character_image': image_url,
+            'room_name': room_name,
         }
 
         return JsonResponse(context)
@@ -119,24 +157,64 @@ def associate_char(request):
 @csrf_exempt
 def finish_game(request):
     Player.objects.all().delete()
+    Room.objects.update(ocupied=False)
     return render(request, 'join_game.html')
 
-@csrf_exempt
-def leave_game(request):
-    data = json.loads(request.body)
-    player_id = data.get('player_id')
-    player = Player.objects.get(id=player_id)
-    player_name = player.name
-    player.delete()
+# @csrf_exempt
+# def leave_game(request):
+#     data = json.loads(request.body)
+#     player_id = data.get('player_id')
+#     player = Player.objects.get(id=player_id)
+#     player_name = player.name
+#     player.delete()
 
     
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        'game_lobby', 
-        {
-            'type': 'player_left',
-            'player_name': f'{player_name}'
-        }
-    )
+#     channel_layer = get_channel_layer()
+#     async_to_sync(channel_layer.group_send)(
+#         'game_lobby', 
+#         {
+#             'type': 'player_left',
+#             'player_name': f'{player_name}'
+#         }
+#     )
 
-    return render(request, 'join_game.html')
+#     return render(request, 'join_game.html')
+
+
+@csrf_exempt
+def render_game_room(request, room_name):
+
+    room = Room.objects.filter(name=room_name).first()
+
+    context = {
+        'room_name': room_name,
+        'room_skin': room.skin.url,
+    }
+    
+    return render(request, 'game_room.html', context)
+
+
+@csrf_exempt
+def room_hint(request, room_name):
+
+    room = Room.objects.filter(name=room_name).first()
+
+    context = {
+        'room_name': 'room_name',
+        'room_skin': room.skin_hint.url,
+    }
+
+    return render(request, 'game_room.html', context)
+
+
+@csrf_exempt
+def room_puzzle(request, room_name):
+
+    room = Room.objects.filter(name=room_name).first()
+
+    context = {
+        'room_name': 'room_name',
+        'room_skin': room.skin_puzzle.url,
+    }
+
+    return render(request, 'game_room.html', context)
