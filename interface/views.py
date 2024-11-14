@@ -85,6 +85,30 @@ def render_char_specs(request, char_rule, char_url):
     }
     return render(request, 'character_specs.html', context)
 
+@csrf_exempt
+def render_game_room(request, room_name, key):
+
+    if room_name not in Access_Code or key != Access_Code[room_name]:
+        if key in Access_Code.values():
+            room_name = next(room for room, code in Access_Code.items() if code == key)
+        else:
+            print("Tentativa de malandragem")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+    room = Room.objects.filter(name=room_name).first()
+
+    if not room:
+        print("Erro na sala")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+    context = {
+        'room_name': room_name,
+        'room_skin': room.skin.url,
+        'room_hint_skin': room.skin_hint.url,
+        'room_puzzle_skin': room.skin_puzzle.url,
+    }
+    
+    return render(request, 'game_room.html', context)
 
 @csrf_exempt
 def register(request):
@@ -114,14 +138,10 @@ def associate_char(request):
         player_id = data.get('playerId')
         character_id = data.get('characterId')
 
-        print(player_id)
-
         player = Player.objects.get(id=player_id)
         character = Character.objects.get(id=character_id)
 
-
         room = Room.objects.filter(perms=False, ocupied=False).first() #Perms = false significa sala incial para mudança de sala procurar pelas perms = true
-        print(room.name)
 
         character.room = room
 
@@ -176,48 +196,72 @@ def finish_game(request):
     Room.objects.update(ocupied=False)
     return render(request, 'join_game.html')
 
-# @csrf_exempt
-# def leave_game(request):
-#     data = json.loads(request.body)
-#     player_id = data.get('player_id')
-#     player = Player.objects.get(id=player_id)
-#     player_name = player.name
-#     player.delete()
-
-    
-#     channel_layer = get_channel_layer()
-#     async_to_sync(channel_layer.group_send)(
-#         'game_lobby', 
-#         {
-#             'type': 'player_left',
-#             'player_name': f'{player_name}'
-#         }
-#     )
-
-#     return render(request, 'join_game.html')
-
 
 @csrf_exempt
-def render_game_room(request, room_name, key):
-
-    if room_name not in Access_Code or key != Access_Code[room_name]:
-        if key in Access_Code.values():
-            room_name = next(room for room, code in Access_Code.items() if code == key)
-        else:
-            print("Tentativa de malandragem")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+def check_answer(request):
+    data = json.loads(request.body)
+    room_name = data.get('room_name')
+    answer = data.get('answer')
+    player_id = data.get('player_id')
 
     room = Room.objects.filter(name=room_name).first()
+    player = Player.objects.filter(id=player_id).first()
 
     if not room:
-        print("Erro na sala")
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-
-    context = {
-        'room_name': room_name,
-        'room_skin': room.skin.url,
-        'room_hint_skin': room.skin_hint.url,
-        'room_puzzle_skin': room.skin_puzzle.url,
-    }
+        return HttpResponseForbidden()
     
-    return render(request, 'game_room.html', context)
+    if answer == room.answer:
+        print('Resposta correta')
+        # Marcar a sala atual como desocupada
+        room.ocupied = False
+        room.save()
+
+        # Encontrar a próxima sala disponível
+        next_room = Room.objects.filter(perms=True, ocupied=False).first()
+
+        # Atualizar a próxima sala para ocupada
+        if next_room:
+            next_room.ocupied = True
+            next_room.save()
+
+            player.character.room = next_room
+
+            # Configurar a camada de canal
+            channel_layer = get_channel_layer()
+            
+            # Enviar mensagem para o grupo do WebSocket
+            async_to_sync(channel_layer.group_send)(
+                'game_lobby', 
+                {
+                    'type': 'room_unlocked',
+                    'currentRoom': room_name,
+                    'nextRoom': next_room.name,
+                    'playerData': {
+                        'name': player.name,
+                        'skin_url': player.character.skin.url,
+                    }
+                }
+            )
+
+            # Preparar o código de acesso para a próxima sala
+            key = Access_Code[next_room.name]
+
+            # Preparar o contexto para enviar de volta como resposta HTTP
+            context = {
+                'room_name': room_name,
+                'key': key,
+            }
+            
+            return JsonResponse({'success': True, 'context': context})
+    
+    # Caso a resposta esteja incorreta, enviar uma notificação de resposta errada
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        'game_lobby', 
+        {
+            'type': 'wrong_answer',
+            'message': 'Resposta incorreta'
+        }
+    )
+
+    return JsonResponse({'success': False})

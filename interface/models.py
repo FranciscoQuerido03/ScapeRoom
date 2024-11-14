@@ -7,6 +7,7 @@ class Room(models.Model):
     skin = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
     skin_hint = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
     skin_puzzle = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
+    answer = models.CharField(max_length=50, default='')
 
     def __str__(self):
         return self.name
