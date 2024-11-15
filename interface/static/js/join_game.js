@@ -3,7 +3,7 @@ function submitForm(event) {
 
     const formData = new FormData(event.target); 
 
-    fetch("https://scaperoom.onrender.com//register/", {
+    fetch("https://scaperoom.onrender.com/register/", {
         method: 'POST',
         body: formData
     })
@@ -14,7 +14,7 @@ function submitForm(event) {
         document.cookie = `player_id=${data.player}`;
         
         setTimeout(() => {
-            window.location.href = 'https://scaperoom.onrender.com//select_char/';
+            window.location.href = 'https://scaperoom.onrender.com/select_char/';
         }, 1000); 
     })
     .catch(error => {

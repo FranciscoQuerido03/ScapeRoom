@@ -36,7 +36,7 @@ document.querySelectorAll('.character-btn').forEach(button => {
       const characterId = button.getAttribute('data-char-id');
       const playerId = getCookie('player_id');
       
-      const response = await fetch("https://scaperoom.onrender.com//charAtribute/", {
+      const response = await fetch("https://scaperoom.onrender.com/charAtribute/", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ document.querySelectorAll('.character-btn').forEach(button => {
         document.cookie = `room_name=${data.room_name}; path=/;`;
         document.cookie = `key=${data.key}; path=/;`;
 
-        const url = `https://scaperoom.onrender.com//char_specs/${data.character_acao}/${data.character_image}`;
+        const url = `https://scaperoom.onrender.com/char_specs/${data.character_acao}/${data.character_image}`;
         console.log('Url: ', url);
         window.location.href = url;
       } else {
