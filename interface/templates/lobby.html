@@ -8,11 +8,13 @@
     <link rel="stylesheet" href="{% static 'css/lobby.css' %}">
 </head>
 <body>
+
+    <div class="background">
+        <img src="{% static 'images/Lobby.png' %}">
+    </div>
+
     <div class="lobby-container">
-        <h1>Welcome to the Game Lobby</h1>
-        <p>Waiting for players to join...</p>
         <div class="player-list">
-            <h2>Players:</h2>
             <ul id="players">
                 {% for player in players %}
                     <li>{{ player.name }}</li>
@@ -21,8 +23,7 @@
                 {% endfor %}
             </ul>
         </div>
-        
-        <button id="start-game" onClick="onClick()"  style="--clr:red"><span>Start Game</span><i></i></button>
+        <button id="start-game" onClick="onClick()"></button>
     </div>
     <script src="{% static 'js/lobby.js' %}"></script>
 </body>

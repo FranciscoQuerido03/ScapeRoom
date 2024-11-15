@@ -6,6 +6,11 @@ body{
     height: 100vh;
 }
 
+.background {
+    z-index: 0;
+    position: relative;
+}
+
 .house-image {
     width: 100vw;
     height: 100vh;

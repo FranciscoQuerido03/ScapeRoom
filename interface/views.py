@@ -13,8 +13,8 @@ Access_Code = {
     'Sala' : 'zlqE44O6cr9Z',
     'Quarto' : 'y2bwIsMuoxqX',
     'Garagem' : '0ynZXbTMmh0x',
-    'Zona da brincadeira' : 'Xxyowi5wEloR',
-    'Casa de banho' : 'ONLh8LwgN8oN',
+    'Sotao' : 'Xxyowi5wEloR',
+    'CasaDeBanho' : 'ONLh8LwgN8oN',
     'Escritorio' : 'BAlzmc9z282p',
     'Berçario' : 'MZlqqrfMoKZv',
 }
@@ -63,7 +63,7 @@ def render_shared(request):
         if room_name in rooms:  # Apenas se o nome da sala estiver na lista
             rooms[room_name] = {
                 'name': player.name,
-                'skin_url': player.character.skin.url
+                'skin_url': player.character.avatar.url
             }
 
     return render(request, 'shared_screen.html', {'rooms': rooms})
@@ -238,7 +238,7 @@ def check_answer(request):
                     'nextRoom': next_room.name,
                     'playerData': {
                         'name': player.name,
-                        'skin_url': player.character.skin.url,
+                        'skin_url': player.character.avatar.url,
                     }
                 }
             )
@@ -248,7 +248,7 @@ def check_answer(request):
 
             # Preparar o contexto para enviar de volta como resposta HTTP
             context = {
-                'room_name': room_name,
+                'room_name': next_room.name,
                 'key': key,
             }
             
