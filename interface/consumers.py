@@ -28,7 +28,6 @@ class LobbyConsumer(AsyncWebsocketConsumer):
         # Verificar o tipo de mensagem recebida
         if 'type' in data:
             if data['type'] == 'start_game':
-                # Enviar mensagem para todos no grupo do lobby
                 await self.channel_layer.group_send(
                     self.lobby_group_name,
                     {
@@ -62,6 +61,13 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                         'character_id': character_id
                     }
                 )
+            elif data['type'] == 'wrong_answer':
+                await self.channel_layer.group_send(
+                    self.lobby_group_name,
+                    {
+                        'type': 'wrong_answer',
+                    }
+                )
 
     async def player_joined(self, event):
         player_name = event['player_name']
@@ -91,5 +97,24 @@ class LobbyConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'type': 'select_character',
             'character_id': character_id
-        })
-        )
+        }))
+
+    async def wrong_answer(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'wrong_answer'
+        }))
+
+    async def room_unlocked(self, event):
+        current_room = event['currentRoom']
+        next_room = event['nextRoom']
+        player_data = event['playerData']
+
+        await self.send(text_data=json.dumps({
+            'type': 'room_unlocked',
+            'currentRoom': current_room,
+            'nextRoom': next_room,
+            'playerData': {
+                'name': player_data['name'],
+                'skin_url': player_data['skin_url']
+            }
+        }))

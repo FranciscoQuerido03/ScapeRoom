@@ -4,6 +4,7 @@
 <head>
   <title>Shared Screen</title>
   <link rel="stylesheet" href="{% static 'css/shared_screen.css' %}">
+  <script src="{% static 'js/shared_screen.js' %}"></script>
 </head>
 <body>
   <div class="background">
@@ -27,7 +28,8 @@
   <div id="sounds" 
     data-start-sound="{% static 'sounds/inicio.wav' %}"
     data-half-sound="{% static 'sounds/metade.wav' %}"
-    data-one-minute-sound="{% static 'sounds/minuto.wav' %}">
+    data-one-minute-sound="{% static 'sounds/minuto.wav' %}"
+    data-wrong-answer-sound = "{% static 'sounds/error.mp3' %}">
 </div>
   <script src="{% static 'js/timer.js' %}"></script>
 </body>

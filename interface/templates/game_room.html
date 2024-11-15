@@ -35,6 +35,13 @@
     <div id="puzzleModal" class="modal">
         <div class="modal-content">
             <img src="{{ room_puzzle_skin }}" alt="Puzzle ampliado">
+            
+            <form id="puzzleForm" onsubmit="submitPuzzleAnswer(event)">
+                <input type="text" id="puzzleAnswer" name="puzzleAnswer" placeholder="Digite sua resposta">
+                <button type="submit">Enviar</button>
+            </form>
+            
+            <div id="feedbackMessage" class="feedback"></div>
         </div>
     </div>
 
