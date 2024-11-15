@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'channels',
     'livereload',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -55,11 +56,19 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'livereload.middleware.LiveReloadScript',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+
 ROOT_URLCONF = 'ScapeRoom.urls'
+
+CORS_ALLOWED_ORIGINS = [
+    "https://scaperoom.onrender.com",
+]
+
 
 CORS_ALLOW_ALL_ORIGINS = True
 
