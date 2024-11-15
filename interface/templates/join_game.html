@@ -5,17 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join Game</title>
-    <link rel="stylesheet" href="{% static 'css/join_game.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/join_game.css' %}">
 </head>
 <body>
     <div class="background">
-        <img src='../../static/images/homepage.png' alt="background">
+        <img src= "{% static 'images/homepage.png' %}" alt="background">
     </div> 
     <div class="elements">
         <div class="metade_h1"></div>
         <div class="metade_h2">
             <div class="metade_v1">
-                <img src='../../static/images/the-beach-house.svg'>
+                <img src="{% static 'images/the-beach-house.svg' %}">
             </div>
             <div class="metade_v2">
                 <form onsubmit="submitForm(event)" class="form">
@@ -26,6 +26,6 @@
             </div>
         </div>
     </div>
-    <script src="{% static 'js/join_game.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/join_game.js' %}"></script>
 </body>
 </html>

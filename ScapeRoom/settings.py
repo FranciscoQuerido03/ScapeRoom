@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure--gicodukx%1@qm9t9h2sizty)urrqw%7*q4zzb_d6i$97s)q9k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['scaperoom.onrender.com']
 
 
 # Application definition
@@ -54,9 +54,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'livereload.middleware.LiveReloadScript',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
 ROOT_URLCONF = 'ScapeRoom.urls'
+
+CORS_ALLOWED_ORIGINS = [
+    "https://scaperoom.onrender.com",
+]
+
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -132,6 +141,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
