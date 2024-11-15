@@ -14,21 +14,54 @@
 
     {% if room_name == 'Cozinha' %}
     
-        <a href="javascript:void(0)" class="hint_cozinha" onclick="openModal('hintModal')"></a>
-        <a href="javascript:void(0)" class="puzzle_cozinha" onclick="openModal('puzzleModal')"></a>
+        <a href="javascript:void(0)" id="lupa" class="hint_cozinha" onclick="openModal('hintModal')"></a>
+        <a href="javascript:void(0)" id="lupa" class="puzzle_cozinha" onclick="openModal('puzzleModal')"></a>
 
     {% elif room_name == 'Sala' %}
 
-        <a href="javascript:void(0)" class="hint_sala" onclick="openModal('hintModal')"></a>
-        <a href="javascript:void(0)" class="puzzle_sala" onclick="openModal('puzzleModal')"></a>
+        <a href="javascript:void(0)" id="lupa" class="hint_sala" onclick="openModal('hintModal')"></a>
+        <a href="javascript:void(0)" id="lupa" class="puzzle_sala" onclick="openModal('puzzleModal')"></a>
+
+    {% elif room_name == 'Quarto' %}
+
+        <a href="javascript:void(0)" id="lupa" class="hint_quarto" onclick="openModal('hintModal')"></a>
+        <a href="javascript:void(0)" id="lupa" class="puzzle_quarto" onclick="openModal('puzzleModal')"></a>
+
+    {% elif room_name == 'Garagem' %}
+
+        <a href="javascript:void(0)" id="lupa" class="hint_garagem" onclick="openModal('hintModal')"></a>
+        <a href="javascript:void(0)" id="lupa" class="puzzle_garagem" onclick="openModal('puzzleModal')"></a>
+
+    {% elif room_name == 'Sotao' %}
+
+        <a href="javascript:void(0)" id="lupa" class="hint_sotao" onclick="openModal('hintModal')"></a>
+        <a href="javascript:void(0)" id="lupa" class="puzzle_sotao" onclick="openModal('puzzleModal')"></a>
+
+    {% elif room_name == 'CasaDeBanho' %}
+
+        <a href="javascript:void(0)" id="lupa" class="hint_casadebanho" onclick="openModal('hintModal')"></a>
+        <a href="javascript:void(0)" id="lupa" class="puzzle_casadebanho" onclick="openModal('puzzleModal')"></a>
+
+    {% elif room_name == 'Escritorio' %}
+
+        <a href="javascript:void(0)" id="lupa" class="hint_escritorio" onclick="openModal('hintModal')"></a>
+        <a href="javascript:void(0)" id="lupa" class="puzzle_escritorio" onclick="openModal('puzzleModal')"></a>
+
+    {% elif room_name == 'Berçario' %}
+
+        <a href="javascript:void(0)" id="lupa" class="hint_berçario" onclick="openModal('hintModal')"></a>
+        <a href="javascript:void(0)" id="lupa" class="puzzle_berçario" onclick="openModal('puzzleModal')"></a>
 
     {% else %}
-        <a href="javascript:history.back()" class="back-button"></a>
+
+        <!-- Possivelmente aqui fica a pagina da ultima room de todas ok? -->
+
     {% endif %}
 
     <div id="hintModal" class="modal">
         <div class="modal-content">
             <img src="{{ room_hint_skin }}" alt="Dica ampliada">
+            <a href="javascript:void(0)" class="back-button" onclick="closeModalOnClick(event)"></a>
         </div>
     </div>
 
@@ -37,14 +70,16 @@
             <img src="{{ room_puzzle_skin }}" alt="Puzzle ampliado">
             
             <form id="puzzleForm" onsubmit="submitPuzzleAnswer(event)">
-                <input type="text" id="puzzleAnswer" name="puzzleAnswer" placeholder="Digite sua resposta">
-                <button type="submit">Enviar</button>
+                <input type="text" id="puzzleAnswer" name="puzzleAnswer">
+                <button type="submit" id="puzzlebutton">Enviar</button>
             </form>
             
             <div id="feedbackMessage" class="feedback"></div>
+            <a href="javascript:void(0)" class="back-button" onclick="closeModalOnClick(event)"></a>
         </div>
     </div>
+    
+    <script src="{% static 'js/game_room.js' %}"></script>
 
-    <script type="text/javascript" src="{% static 'js/game_room.js' %}"></script>
 </body>
 </html>
