@@ -70,7 +70,18 @@ def render_shared(request):
 
 @csrf_exempt
 def render_select_char(request):
-    return render(request, 'select_char.html')
+    players = Player.objects.all()
+    characters_used = []
+    
+    for player in players:
+        if player.character:
+            characters_used.append(player.character.id)
+
+    return render(request, 'select_char.html', {
+        'characters_used': characters_used,
+        'character_ids': range(1, 9)  # Gera os IDs de 1 a 8
+    })
+
 
 @csrf_exempt
 def render_lobby_view(request):

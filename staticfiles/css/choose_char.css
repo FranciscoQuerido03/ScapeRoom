@@ -78,6 +78,14 @@ body {
   .character-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    pointer-events: none;
+    transform: none; 
+  }
+  
+  .character-btn:disabled:hover,
+  .character-btn:disabled:active {
+    transform: none; 
+    pointer-events: none;
   }
 
   

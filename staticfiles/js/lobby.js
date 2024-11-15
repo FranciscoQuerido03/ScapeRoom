@@ -4,6 +4,11 @@ const chatSocket = new WebSocket('ws://' + window.location.host + '/ws/lobby/');
 // Flag para saber se a redireção foi realizada
 let redirectToSharedScreen = false;
 
+chatSocket.onopen = function() {
+    console.log('WebSocket connection established');
+}
+
+
 chatSocket.onclose = function(e) {
     console.error('Chat socket closed unexpectedly');
 };
@@ -13,6 +18,14 @@ chatSocket.onmessage = function(event) {
 
     if (data.type === 'player_joined') {
         const playerName = data.player_name;
+
+        // Verifica se a mensagem de lista vazia está presente e remove-a
+        const emptyMessage = playersList.querySelector('li');
+        if (emptyMessage && emptyMessage.textContent === 'No players have joined yet.') {
+            playersList.removeChild(emptyMessage);
+        }
+
+        // Adiciona o novo jogador
         const li = document.createElement('li');
         li.textContent = playerName;
         playersList.appendChild(li);
@@ -27,6 +40,13 @@ chatSocket.onmessage = function(event) {
                 playersList.removeChild(playerItems[i]);
                 break; 
             }
+        }
+
+        // Se a lista estiver vazia depois da remoção, adiciona a mensagem de lista vazia
+        if (playersList.children.length === 0) {
+            const li = document.createElement('li');
+            li.textContent = 'No players have joined yet.';
+            playersList.appendChild(li);
         }
     }
 };
