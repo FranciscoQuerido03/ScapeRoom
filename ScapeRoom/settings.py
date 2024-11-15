@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'channels',
     'livereload',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -56,8 +55,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'livereload.middleware.LiveReloadScript',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
