@@ -70,6 +70,84 @@ body {
     text-decoration: none;
 }
 
+.hint_escritorio {
+  position: absolute;
+  z-index: 1;
+  width: 17vw;
+  height: 42vh;
+  top: 11vh;
+  right: 0vw;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.puzzle_escritorio {
+  position: absolute;
+  z-index: 1;
+  width: 2.5vw;
+  height: 4.5vh;
+  top: 43vh;
+  left: 5.6vw;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.hint_berçario {
+  position: absolute;
+    z-index: 1;
+    width: 3.5vw;
+    height: 7vh;
+    top: 27vh;
+    right: 20.5vw;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.puzzle_berçario {
+  position: absolute;
+  z-index: 1;
+  width: 2.5vw;
+  height: 4vh;
+  top: 58.5vh;
+  left: 10.6vw;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.hint_garagem {
+  position: absolute;
+  z-index: 1;
+  width: 11vw;
+  height: 8vh;
+  bottom: 8vh;
+  right: 44vw;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.puzzle_garagem {
+  position: absolute;
+  z-index: 1;
+  width: 2.5vw;
+  height: 4vh;
+  top: 50.2vh;
+  right: 21.8vw;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .back-button {
   position: absolute;
   z-index: 1;
@@ -95,8 +173,8 @@ body {
 
 .modal-content {
   position: relative;
-  width: 35vw;
-  height: 45vh;
+  width: 45vw;
+  height: 55vh;
   border-radius: 8px;
   overflow: hidden;
   display: flex;
