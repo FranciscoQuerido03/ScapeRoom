@@ -1,5 +1,10 @@
 const playersList = document.getElementById('players');
-const chatSocket = new WebSocket('ws://' + window.location.host + '/ws/lobby/');
+
+const chatSocket = new WebSocket(
+    (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + 
+    window.location.host + 
+    '/ws/lobby/'
+);
 
 // Flag para saber se a redireção foi realizada
 let redirectToSharedScreen = false;
