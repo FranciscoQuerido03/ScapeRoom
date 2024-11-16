@@ -6,7 +6,12 @@ function getCookie(name) {
 }
 
 // Estabelecer conexão WebSocket
-const socket = new WebSocket('ws://' + window.location.host + '/ws/lobby/');
+const socket = new WebSocket(
+    (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + 
+    window.location.host + 
+    '/ws/lobby/'
+);
+
 
 socket.addEventListener('open', function() {
     console.log('WebSocket connection established');

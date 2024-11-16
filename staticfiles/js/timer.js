@@ -26,7 +26,12 @@ function formatTime(seconds) {
     return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
-const socket = new WebSocket('ws://' + window.location.host + '/ws/lobby/');
+const socket = new WebSocket(
+    (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + 
+    window.location.host + 
+    '/ws/lobby/'
+);
+
 
 socket.addEventListener('open', function() {
   console.log('WebSocket connection established');
