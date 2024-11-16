@@ -301,3 +301,40 @@ body {
   font-size: 3vh;
   font-weight: bold;
 }
+
+.infos {
+  position: absolute;
+  z-index: 10;
+  width: 4vw;
+  height: 8vh;
+  top: 5vh;
+  right: 5vw;
+  background-image: url('../images/info.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+
+.modal-content-infos {
+  position: relative;
+  width: 35vw;
+  height: 45vh;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5vw;
+  background-image: url('../images/textura.png');
+  background-blend-mode: multiply;
+
+  display: flex;
+  flex-direction: row;
+  gap: 5vw;
+}
+
+.modal-content-infos p {
+  margin: 0;
+  flex: 1;
+}

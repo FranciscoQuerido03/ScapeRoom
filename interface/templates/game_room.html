@@ -58,6 +58,8 @@
 
     {% endif %}
 
+    <a href="javascript:void(0)" class="infos" onclick="openModal('infosModal')"></a>
+
     <div id="hintModal" class="modal">
         <div class="modal-content">
             <img src="{{ room_hint_skin }}" alt="Dica ampliada">
@@ -76,6 +78,13 @@
             
             <div id="feedbackMessage" class="feedback"></div>
             <a href="javascript:void(0)" class="back-button" onclick="closeModalOnClick(event)"></a>
+        </div>
+    </div>
+    
+    <div id="infosModal" class="modal">
+        <div class="modal-content-infos" style="background-color: {{ color }};">
+            <img src="{{ skin }}">
+            <p>{{ rule }}</p>
         </div>
     </div>
     
