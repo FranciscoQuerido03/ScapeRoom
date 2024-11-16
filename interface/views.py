@@ -106,7 +106,10 @@ def render_game_room(request, room_name, key):
             print("Tentativa de malandragem")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-    room = Room.objects.filter(name=room_name).first()
+
+    room = Room.objects.filter(name=room_name).first()  # Get the first Room object with the given name
+    character = Character.objects.filter(room=room).exclude(rule="default").first()
+
 
     if not room:
         print("Erro na sala")
@@ -117,6 +120,9 @@ def render_game_room(request, room_name, key):
         'room_skin': room.skin.url,
         'room_hint_skin': room.skin_hint.url,
         'room_puzzle_skin': room.skin_puzzle.url,
+        'rule': character.rule,
+        'color': character.color,
+        'skin': character.skin.url,
     }
     
     return render(request, 'game_room.html', context)
@@ -217,6 +223,7 @@ def check_answer(request):
 
     room = Room.objects.filter(name=room_name).first()
     player = Player.objects.filter(id=player_id).first()
+    character = player.character
 
     if not room:
         return HttpResponseForbidden()
@@ -236,6 +243,9 @@ def check_answer(request):
             next_room.save()
 
             player.character.room = next_room
+            character.room = next_room
+            player.save()
+            character.save()
 
             # Configurar a camada de canal
             channel_layer = get_channel_layer()

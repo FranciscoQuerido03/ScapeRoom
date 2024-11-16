@@ -18,6 +18,7 @@ class Character(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True, default=None)   
     skin = models.ImageField(upload_to='skins/')
     avatar = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
+    color = models.CharField(max_length=7, null=True, blank=True)
 
 class Session(models.Model):
     id = models.AutoField(primary_key=True)
