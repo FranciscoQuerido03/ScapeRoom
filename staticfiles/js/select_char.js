@@ -28,15 +28,25 @@ socket.addEventListener('message', function (event) {
   }
 });
 
+// Desabilitar botões de personagens que já foram selecionados
+document.querySelectorAll('.character-btn').forEach(button => {
+  button.addEventListener('click', (event) => {
+      if (button.disabled) {
+          event.preventDefault();
+          event.stopPropagation();
+      }
+  });
+});
 
 
 document.querySelectorAll('.character-btn').forEach(button => {
   button.addEventListener('click', async () => {
+
     try {
       const characterId = button.getAttribute('data-char-id');
       const playerId = getCookie('player_id');
       
-      const response = await fetch("https://scaperoom.onrender.com/charAtribute/", {
+      const response = await fetch("http://localhost:8000/charAtribute/", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,8 +64,7 @@ document.querySelectorAll('.character-btn').forEach(button => {
         document.cookie = `room_name=${data.room_name}; path=/;`;
         document.cookie = `key=${data.key}; path=/;`;
 
-        const url = `https://scaperoom.onrender.com/char_specs/${data.character_acao}/${data.character_image}`;
-        console.log('Url: ', url);
+        const url = `http://localhost:8000/char_specs/${data.character_acao}/${data.character_image}`;
         window.location.href = url;
       } else {
         console.error('Erro ao selecionar personagem:', response.statusText);

@@ -21,6 +21,15 @@ window.onclick = function(event) {
     }
 };
 
+function closeModalOnClick(event) {
+    event.preventDefault();
+
+    const modals = document.getElementsByClassName("modal");
+    for (let i = 0; i < modals.length; i++) {
+        modals[i].style.display = "none";
+    }
+}
+
 window.onload = function() {
     const modals = document.getElementsByClassName("modal");
     for (let i = 0; i < modals.length; i++) {
@@ -60,6 +69,16 @@ async function submitPuzzleAnswer(event) {
     if (result.success) {
         feedbackMessage.textContent = "Resposta correta!";
         feedbackMessage.style.color = "green";
+
+        let nextRoom = result.context.room_name;
+        let key = result.context.key;
+        console.log(result);
+        if (nextRoom) {
+            setTimeout(() => {
+                window.location.href = `/game/${nextRoom}/${key}`;
+            }, 1000);
+        }
+
     } else {
         feedbackMessage.textContent = "Resposta incorreta, tente novamente.";
         feedbackMessage.style.color = "red";

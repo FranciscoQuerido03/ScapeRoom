@@ -4,6 +4,12 @@ body{
     overflow: hidden;
     width: 100vw;
     height: 100vh;
+    font-family: Poppins;
+}
+
+.background {
+    z-index: 0;
+    position: relative;
 }
 
 .house-image {

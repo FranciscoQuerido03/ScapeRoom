@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure--gicodukx%1@qm9t9h2sizty)urrqw%7*q4zzb_d6i$97s)q9k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['scaperoom.onrender.com']
+ALLOWED_HOSTS = ['*']   
 
 
 # Application definition
@@ -61,11 +61,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 ROOT_URLCONF = 'ScapeRoom.urls'
-
-CORS_ALLOWED_ORIGINS = [
-    "https://scaperoom.onrender.com",
-]
-
 
 CORS_ALLOW_ALL_ORIGINS = True
 

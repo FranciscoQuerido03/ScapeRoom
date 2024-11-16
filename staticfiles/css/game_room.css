@@ -1,10 +1,3 @@
-*{
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    margin:0;
-}
-
 * {
   margin: 0;
 }
@@ -78,12 +71,12 @@ body {
 }
 
 .back-button {
-    position: absolute;
-    z-index: 1;
-    top: 4vh;
-    right: 2vw;
-    width: 6vw; 
-    height: 11vh;
+  position: absolute;
+  z-index: 1;
+  top: 1.1vh;
+  right: 0.3vw;
+  width: 3vw;
+  height: 5vh;
 }
 
 .modal {
@@ -116,6 +109,45 @@ body {
   height: 100%;
 }
 
-.hint_cozinha, .puzzle_cozinha, .hint_sala, .puzzle_sala {
+#lupa {
   cursor: url('../images/lupa.png'), auto;
+}
+
+#puzzleForm {
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8vh;
+  align-items: center;
+  justify-content: center;
+}
+
+#puzzleAnswer {
+  border: none;
+  background: transparent;
+  color: white;
+  max-width: 14vw;
+  font-size: 3vh;
+  letter-spacing: 3.5vw;
+}
+
+#puzzlebutton {
+  margin-top: 3vh;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 2vh;
+}
+
+#puzzlebutton:hover {
+  color: blue;
+}
+
+#feedbackMessage {
+  position: absolute;
+  z-index: 10000;
+  top: 8vh;
+  font-size: 3vh;
+  font-weight: bold;
 }

@@ -13,14 +13,11 @@
   <div class="elements">
     <h1>Choose your character</h1>
     <div class="characters">
-      <button id="char1" class="character-btn" data-char-id="1"></button>
-      <button id="char2" class="character-btn" data-char-id="2"></button>
-      <button id="char3" class="character-btn" data-char-id="3"></button>
-      <button id="char4" class="character-btn" data-char-id="4"></button>
-      <button id="char5" class="character-btn" data-char-id="5"></button>
-      <button id="char6" class="character-btn" data-char-id="6"></button>
-      <button id="char7" class="character-btn" data-char-id="7"></button>
-      <button id="char8" class="character-btn" data-char-id="8"></button>
+      {% for char_id in character_ids %}
+        <button id="char{{ char_id }}" class="character-btn" data-char-id="{{ char_id }}" 
+                {% if char_id in characters_used %}disabled{% endif %}>
+        </button>
+      {% endfor %}
     </div>
   </div>
   
