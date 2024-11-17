@@ -29,12 +29,23 @@ document.addEventListener("DOMContentLoaded", function () {
         // Seleciona a próxima sala e adiciona o jogador
         const nextRoomElement = document.getElementById(nextRoom);
         if (nextRoomElement) {
-            nextRoomElement.innerHTML = `
-                <div class="room_info">
-                    <img src="${playerData.skin_url}" class="character-image">
-                    <p class="character-name">${playerData.name}</p>
-                </div>
-            `;
+            if (nextRoom === "Hall") {
+                // Append another room_info div if nextRoom is Hall
+                nextRoomElement.innerHTML += `
+                    <div class="room_info">
+                        <img src="${playerData.skin_url}" class="character-image">
+                        <p class="character-name">${playerData.name}</p>
+                    </div>
+                `;
+            } else {
+                // Overwrite content for other rooms
+                nextRoomElement.innerHTML = `
+                    <div class="room_info">
+                        <img src="${playerData.skin_url}" class="character-image">
+                        <p class="character-name">${playerData.name}</p>
+                    </div>
+                `;
+            }
         }
     }
 

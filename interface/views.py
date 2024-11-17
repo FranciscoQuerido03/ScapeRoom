@@ -29,6 +29,7 @@ Acoes = [
 
 Acoes_used = []
 
+Counter = 0
 
 @csrf_exempt
 def render_room(request):
@@ -57,7 +58,6 @@ def render_shared(request):
         "Sotao": None,
         "Quarto": None,
         "Garagem": None,
-        'Hall': None,
     }
 
     for player in players:
@@ -117,6 +117,9 @@ def render_game_room(request, room_name, key):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     
     if room.perms:
+        print("Last Room")
+        print(room.name)
+        print(character.rule)
         character.last_room = True
         character.save()
 
@@ -168,7 +171,7 @@ def associate_char(request):
         player = Player.objects.get(id=player_id)
         character = Character.objects.get(id=character_id)
 
-        room = Room.objects.filter(perms=False, ocupied=False).first() #Perms = false significa sala incial para mudança de sala procurar pelas perms = true
+        room = Room.objects.filter(perms=False, ocupied=False, final=False).first() #Perms = false significa sala incial para mudança de sala procurar pelas perms = true
 
         character.room = room
 
@@ -221,6 +224,11 @@ def finish_game(request):
     Player.objects.all().delete()
     Character.objects.update(rule='default')
     Room.objects.update(ocupied=False)
+    Character.objects.update(last_room=False)
+    global Counter
+    global Acoes_used
+    Counter = 0
+    Acoes_used = []
     return render(request, 'join_game.html')
 
 
@@ -237,21 +245,24 @@ def check_answer(request):
 
     if not room:
         return HttpResponseForbidden()
-    print(room.answer)
-    print(room.name)
-    print(answer)
+
     if answer == room.answer:
         print('Resposta correta')
 
         if character.last_room:
+            print("3 sala")
+            global Counter
+            Counter += 1
             next_room = Room.objects.filter(final=True).first()
+
         else:
+            print("2 sala")
             # Marcar a sala atual como desocupada
             room.ocupied = False
             room.save()
 
             # Encontrar a próxima sala disponível
-            next_room = Room.objects.filter(perms=True, ocupied=False).first()
+            next_room = Room.objects.filter(perms=True, ocupied=False, final=False).first()
 
         # Atualizar a próxima sala para ocupada
         if next_room:
