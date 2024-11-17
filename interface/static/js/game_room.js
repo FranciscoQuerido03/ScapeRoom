@@ -12,6 +12,10 @@ socket.addEventListener('message', function (event) {
     if (data.type === 'lose_game') {
         window.location.href = `${data.url}/${data.message}`; // Redirect to lose page
     }
+
+    if (data.type === 'win_game') {
+        window.location.href = `${data.url}/${data.message}`; // Redirect to lose page
+    }
 });
 
 function openModal(modalId) {

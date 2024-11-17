@@ -17,6 +17,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error("Mensagem WebSocket incompleta", data);
             }
         }
+
+        if (data.type === 'win_game') {
+            window.location.href = `${data.url}/${data.message}`; // Redirect to lose page
+        }
     }); 
 
     function updateRoom(currentRoom, nextRoom, playerData) {
@@ -30,6 +34,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const nextRoomElement = document.getElementById(nextRoom);
         if (nextRoomElement) {
             if (nextRoom === "Hall") {
+                const roomInfoCount = nextRoomElement.querySelectorAll('.room_info').length;
+
+                if (roomInfoCount === 3) {
+                    socket.send(JSON.stringify({
+                        type: 'win_game'
+                    }));
+                }
+
                 // Append another room_info div if nextRoom is Hall
                 nextRoomElement.innerHTML += `
                     <div class="room_info">
