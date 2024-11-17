@@ -3,7 +3,7 @@ function submitForm(event) {
 
     const formData = new FormData(event.target); 
 
-    fetch("http://localhost:8000/register/", {
+    fetch("http://192.168.1.112:8000/register/", {
         method: 'POST',
         body: formData
     })
@@ -14,7 +14,7 @@ function submitForm(event) {
         document.cookie = `player_id=${data.player}`;
         
         setTimeout(() => {
-            window.location.href = 'http://localhost:8000/select_char/';
+            window.location.href = 'http://192.168.1.112:8000/select_char/';
         }, 100); 
     })
     .catch(error => {

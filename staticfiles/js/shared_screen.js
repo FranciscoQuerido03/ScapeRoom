@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Mensagem WebSocket recebida", data);   
 
             if (currentRoom && nextRoom && playerData) {
+                rightAnswerSound.play();
                 updateRoom(currentRoom, nextRoom, playerData);
             } else {
                 console.error("Mensagem WebSocket incompleta", data);

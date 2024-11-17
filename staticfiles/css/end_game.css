@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+* {
+    margin: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+  
+.background {
+    z-index: 0;
+    position: relative;
+}
+  
+.background img{
+    width: 100vw;
+    height: 100vh;
+}
+
+p {
+    position: absolute;
+    z-index: 1;
+    font-weight: bold;
+    font-family: Poppins;
+    letter-spacing: 0.5vw;
+}
+
+.Vitória {
+    color: green;
+    font-size: 5vw;
+}
+
+.Derrota {
+    color: red;
+    font-size: 5vw;
+}

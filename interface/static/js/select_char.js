@@ -46,7 +46,7 @@ document.querySelectorAll('.character-btn').forEach(button => {
       const characterId = button.getAttribute('data-char-id');
       const playerId = getCookie('player_id');
       
-      const response = await fetch("http://localhost:8000/charAtribute/", {
+      const response = await fetch("http://192.168.1.112:8000/charAtribute/", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ document.querySelectorAll('.character-btn').forEach(button => {
         document.cookie = `room_name=${data.room_name}; path=/;`;
         document.cookie = `key=${data.key}; path=/;`;
 
-        const url = `http://localhost:8000/char_specs/${data.character_acao}/${data.character_image}`;
+        const url = `http://192.168.1.112:8000/char_specs/${data.character_acao}/${data.character_image}`;
         window.location.href = url;
       } else {
         console.error('Erro ao selecionar personagem:', response.statusText);

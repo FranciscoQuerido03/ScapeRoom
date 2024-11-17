@@ -280,6 +280,7 @@ body {
   color: white;
   max-width: 20vw;
   font-size: 3vh;
+  text-align: center;
 }
 
 #puzzlebutton {

@@ -16,7 +16,7 @@ Access_Code = {
     'Sotao' : 'Xxyowi5wEloR',
     'CasaDeBanho' : 'ONLh8LwgN8oN',
     'Escritorio' : 'BAlzmc9z282p',
-    'Berçario' : 'MZlqqrfMoKZv',
+    'Bercario' : 'MZlqqrfMoKZv',
     'Hall': 'A7F9K2L8T3Z6',
 }
 
@@ -288,6 +288,13 @@ def check_answer(request):
                         'name': player.name,
                         'skin_url': player.character.avatar.url,
                     }
+                }
+            )
+
+            async_to_sync(channel_layer.group_send)(
+                'game_lobby', 
+                {
+                    'type': 'right_answer',
                 }
             )
 

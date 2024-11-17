@@ -4,8 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <title>End Game</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/end_game.css' %}">
 </head>
 <body>
-  {{ message }}
+  <div class="background">
+    <img src="{% static 'images/lobby.png' %}">
+  </div>
+  <p class="{{ message }}">{{ message }}</p>
 </body>
 </html>
