@@ -68,6 +68,20 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                         'type': 'wrong_answer',
                     }
                 )
+            elif data['type'] == 'lose_game':
+                await self.channel_layer.group_send(
+                    self.lobby_group_name,
+                    {
+                        'type': 'lose_game',
+                    }
+                )
+            elif data['type'] == 'win_game':
+                await self.channel_layer.group_send(
+                    self.lobby_group_name,
+                    {
+                        'type': 'win_game',
+                    }
+                )
 
     async def player_joined(self, event):
         player_name = event['player_name']
@@ -102,6 +116,20 @@ class LobbyConsumer(AsyncWebsocketConsumer):
     async def wrong_answer(self, event):
         await self.send(text_data=json.dumps({
             'type': 'wrong_answer'
+        }))
+    
+    async def lose_game(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'lose_game',
+            'url': '/end_game',
+            'message': 'Lose'
+        }))
+
+    async def win_game(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'win_game',
+            'url': '/end_game',
+            'message': 'Win'
         }))
 
     async def room_unlocked(self, event):

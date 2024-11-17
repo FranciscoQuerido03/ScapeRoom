@@ -1,5 +1,5 @@
 // Tempo inicial em segundos
-let startTime = 120;
+let startTime = 1000;
 let timeLeft = startTime;
 
 const soundsDiv = document.getElementById("sounds");
@@ -62,6 +62,10 @@ socket.addEventListener('message', function (event) {
             clearInterval(countdownInterval);
         }
     }
+
+    if (data.type === 'lose_game') {
+        window.location.href = `${data.url}/${data.message}`; // Redirect to lose page
+    }
 });
 
 // Atualiza o display inicial
@@ -97,6 +101,10 @@ function startCountdown() {
             if (startButton) {
                 startButton.disabled = true;
             }
+
+            socket.send(JSON.stringify({
+                type: 'lose_game'
+            }));
         }
     }, 1000);
 }

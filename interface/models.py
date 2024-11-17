@@ -8,6 +8,7 @@ class Room(models.Model):
     skin_hint = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
     skin_puzzle = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
     answer = models.CharField(max_length=50, default='')
+    final = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -19,6 +20,7 @@ class Character(models.Model):
     skin = models.ImageField(upload_to='skins/')
     avatar = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
     color = models.CharField(max_length=7, null=True, blank=True)
+    last_room = models.BooleanField(default=False)
 
 class Session(models.Model):
     id = models.AutoField(primary_key=True)
