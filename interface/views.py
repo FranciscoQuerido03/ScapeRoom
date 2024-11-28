@@ -33,11 +33,46 @@ Counter = 0
 
 @csrf_exempt
 def render_room(request):
-    player =  Player.objects.filter(request.GET.get('player'))
-    room = player.character.room.name
-    room_name = room + '.html'
-    return render(request, room_name)
+    try:
+        data = json.loads(request.body)
+        player_id = data.get('player')
+        direcao = data.get('direcao')
 
+        if not player_id or not direcao:
+            return JsonResponse({'error': 'Dados inválidos'}, status=400)
+
+        # Obter o jogador e a sala atual
+        player = Player.objects.filter(id=player_id).first()
+        current_room = player.character.room
+
+        # Obter as salas descobertas e ordená-las
+        discovered_rooms = list(player.discovered_rooms.all())
+
+        # Determinar a posição da sala atual
+        try:
+            current_index = discovered_rooms.index(current_room)
+        except ValueError:
+            return JsonResponse({'error': 'Sala atual não encontrada nas descobertas'}, status=404)
+
+        # Determinar a próxima sala com base na direção
+        if direcao == 'esquerda' and current_index > 0:
+            next_room = discovered_rooms[current_index - 1]
+        elif direcao == 'direita' and current_index < len(discovered_rooms) - 1:
+            next_room = discovered_rooms[current_index + 1]
+        else:
+            return JsonResponse({'error': 'Movimento inválido'}, status=400)
+
+        # Atualizar a sala do jogador
+        player.character.room = next_room
+        player.character.save()
+
+        next_room_url = '/game/' + next_room.name + '/'+ Access_Code[next_room.name]
+
+        return JsonResponse({'redirect_url': next_room_url})
+
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'JSON inválido'}, status=400)
+    
 @csrf_exempt
 def render_join(request):
     return render(request, 'join_game.html')
@@ -111,6 +146,7 @@ def render_game_room(request, room_name, key):
 
     room = Room.objects.filter(name=room_name).first()  # Get the first Room object with the given name
     character = Character.objects.filter(room=room).exclude(rule="default").first()
+    player = Player.objects.filter(character=character).first()
 
     if not room:
         print("Erro na sala")
@@ -132,6 +168,20 @@ def render_game_room(request, room_name, key):
         'color': character.color,
         'skin': character.skin.url,
     }
+    
+    # Obter as salas descobertas
+    discovered_rooms = list(player.discovered_rooms.all())
+
+    if len(discovered_rooms) > 1: 
+        current_index = discovered_rooms.index(room)
+        
+        if current_index == 0:  # Primeira sala
+            context['right_arrow'] = True
+        elif current_index == len(discovered_rooms) - 1:  # Última sala
+            context['left_arrow'] = True
+        else:  # Sala do meio
+            context['right_arrow'] = True
+            context['left_arrow'] = True
     
     return render(request, 'game_room.html', context)
 
@@ -176,6 +226,9 @@ def associate_char(request):
         character.room = room
 
         player.character = character
+
+        player.discovered_rooms.add(room)
+        player.current_room = room
 
         if room:
             room.ocupied = True
@@ -231,7 +284,6 @@ def finish_game(request):
     Acoes_used = []
     return render(request, 'join_game.html')
 
-
 @csrf_exempt
 def check_answer(request):
     data = json.loads(request.body)
@@ -271,6 +323,10 @@ def check_answer(request):
 
             player.character.room = next_room
             character.room = next_room
+
+            player.discovered_rooms.add(next_room)
+            player.current_room = next_room
+
             player.save()
             character.save()
 

@@ -1,5 +1,5 @@
 // Tempo inicial em segundos
-let startTime = 300;
+let startTime = 100000000;
 let timeLeft = startTime;
 
 const soundsDiv = document.getElementById("sounds");

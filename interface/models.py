@@ -33,6 +33,8 @@ class Player(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     character = models.ForeignKey(Character, on_delete=models.CASCADE, null=True)
+    discovered_rooms = models.ManyToManyField(Room, related_name='player', blank=True) 
+    current_room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True, blank=True, related_name='current_player')
 
     def __str__(self):
         return self.name
