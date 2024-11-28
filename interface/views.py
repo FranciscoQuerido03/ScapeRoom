@@ -61,10 +61,26 @@ def render_room(request):
             next_room = discovered_rooms[current_index + 1]
         else:
             return JsonResponse({'error': 'Movimento inválido'}, status=400)
+        
+        
 
         # Atualizar a sala do jogador
         player.character.room = next_room
         player.character.save()
+
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            'game_lobby', 
+            {
+                'type': 'change_room',
+                'currentRoom': current_room.name,
+                'nextRoom': next_room.name,
+                'playerData': {
+                    'name': player.name,
+                    'skin_url': player.character.avatar.url,
+                }
+            }
+        )
 
         next_room_url = '/game/' + next_room.name + '/'+ Access_Code[next_room.name]
 

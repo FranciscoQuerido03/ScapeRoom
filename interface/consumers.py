@@ -89,7 +89,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                         'type': 'win_game',
                     }
                 )
-
+                
     async def player_joined(self, event):
         player_name = event['player_name']
 
@@ -151,6 +151,21 @@ class LobbyConsumer(AsyncWebsocketConsumer):
 
         await self.send(text_data=json.dumps({
             'type': 'room_unlocked',
+            'currentRoom': current_room,
+            'nextRoom': next_room,
+            'playerData': {
+                'name': player_data['name'],
+                'skin_url': player_data['skin_url']
+            }
+        }))
+
+    async def change_room(self, event):
+        current_room = event['currentRoom']
+        next_room = event['nextRoom']
+        player_data = event['playerData']
+
+        await self.send(text_data=json.dumps({
+            'type': 'change_room',
             'currentRoom': current_room,
             'nextRoom': next_room,
             'playerData': {

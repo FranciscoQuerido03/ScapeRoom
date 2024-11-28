@@ -19,10 +19,17 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        if (data.type === 'win_game') {
-            window.location.href = `${data.url}/${data.message}`; // Redirect to lose page
+        else if (data.type === 'win_game') {
+            window.location.href = `${data.url}/${data.message}`; 
         }
-    }); 
+
+        else if (data.type === 'change_room') {
+            const { currentRoom, nextRoom, playerData } = data;
+            if (currentRoom && nextRoom && playerData) {
+                updateRoom(currentRoom, nextRoom, playerData);
+            }
+        }
+    });
 
     function updateRoom(currentRoom, nextRoom, playerData) {
         // Seleciona a sala atual e remove o jogador dela
