@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ room_name }}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/game_room.css' %}">
+    <script src="{% static 'js/game_room.js' %}"></script>
 </head>
 <body>
     <div class="background">
@@ -47,7 +48,7 @@
         <a href="javascript:void(0)" id="lupa" class="hint_escritorio" onclick="openModal('hintModal')"></a>
         <a href="javascript:void(0)" id="lupa" class="puzzle_escritorio" onclick="openModal('puzzleModal')"></a>
 
-    {% elif room_name == 'Berçario' %}
+    {% elif room_name == 'Bercario' %}
 
         <a href="javascript:void(0)" id="lupa" class="hint_berçario" onclick="openModal('hintModal')"></a>
         <a href="javascript:void(0)" id="lupa" class="puzzle_berçario" onclick="openModal('puzzleModal')"></a>
@@ -87,8 +88,16 @@
             <p>{{ rule }}</p>
         </div>
     </div>
-    
-    <script src="{% static 'js/game_room.js' %}"></script>
 
+    <div class="arrows">
+        {% if left_arrow %}
+            <img src="{% static 'images/left arrow.png' %}" alt="Seta Esquerda" id="left_arrow" />
+        {% endif %}
+        {% if right_arrow %}
+            <img src="{% static 'images/right arrow.png' %}" alt="Seta Direita" id="right_arrow" />
+        {% endif %}
+    </div>
+    
+    <script src="{% static 'js/arrows.js' %}"></script>
 </body>
 </html>

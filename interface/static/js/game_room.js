@@ -1,3 +1,23 @@
+// Estabelecer conexão WebSocket
+const socket = new WebSocket('ws://' + window.location.host + '/ws/lobby/');
+
+socket.addEventListener('open', function() {
+    console.log('WebSocket connection established');
+});
+
+// Ouvir mensagens do WebSocket
+socket.addEventListener('message', function (event) {
+    const data = JSON.parse(event.data);
+
+    if (data.type === 'lose_game') {
+        window.location.href = `${data.url}/${data.message}`; // Redirect to lose page
+    }
+
+    if (data.type === 'win_game') {
+        window.location.href = `${data.url}/${data.message}`; // Redirect to lose page
+    }
+});
+
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -72,6 +92,9 @@ async function submitPuzzleAnswer(event) {
 
         let nextRoom = result.context.room_name;
         let key = result.context.key;
+        
+        document.cookie = `room_name=${nextRoom}; path=/;`;
+        document.cookie = `key=${key}; path=/;`;
         console.log(result);
         if (nextRoom) {
             setTimeout(() => {
@@ -93,3 +116,4 @@ function getCSRFToken() {
         ?.split("=")[1];
     return cookieValue;
 }
+

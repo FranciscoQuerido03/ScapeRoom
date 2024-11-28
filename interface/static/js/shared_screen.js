@@ -12,12 +12,24 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Mensagem WebSocket recebida", data);   
 
             if (currentRoom && nextRoom && playerData) {
+                rightAnswerSound.play();
                 updateRoom(currentRoom, nextRoom, playerData);
             } else {
                 console.error("Mensagem WebSocket incompleta", data);
             }
         }
-    }); 
+
+        else if (data.type === 'win_game') {
+            window.location.href = `${data.url}/${data.message}`; 
+        }
+
+        else if (data.type === 'change_room') {
+            const { currentRoom, nextRoom, playerData } = data;
+            if (currentRoom && nextRoom && playerData) {
+                updateRoom(currentRoom, nextRoom, playerData);
+            }
+        }
+    });
 
     function updateRoom(currentRoom, nextRoom, playerData) {
         // Seleciona a sala atual e remove o jogador dela
@@ -29,12 +41,31 @@ document.addEventListener("DOMContentLoaded", function () {
         // Seleciona a próxima sala e adiciona o jogador
         const nextRoomElement = document.getElementById(nextRoom);
         if (nextRoomElement) {
-            nextRoomElement.innerHTML = `
-                <div class="room_info">
-                    <img src="${playerData.skin_url}" class="character-image">
-                    <p class="character-name">${playerData.name}</p>
-                </div>
-            `;
+            if (nextRoom === "Hall") {
+                const roomInfoCount = nextRoomElement.querySelectorAll('.room_info').length;
+
+                if (roomInfoCount === 3) {
+                    socket.send(JSON.stringify({
+                        type: 'win_game'
+                    }));
+                }
+
+                // Append another room_info div if nextRoom is Hall
+                nextRoomElement.innerHTML += `
+                    <div class="room_info">
+                        <img src="${playerData.skin_url}" class="character-image">
+                        <p class="character-name">${playerData.name}</p>
+                    </div>
+                `;
+            } else {
+                // Overwrite content for other rooms
+                nextRoomElement.innerHTML = `
+                    <div class="room_info">
+                        <img src="${playerData.skin_url}" class="character-image">
+                        <p class="character-name">${playerData.name}</p>
+                    </div>
+                `;
+            }
         }
     }
 

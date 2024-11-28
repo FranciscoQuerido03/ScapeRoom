@@ -1,5 +1,5 @@
 // Tempo inicial em segundos
-let startTime = 120;
+let startTime = 300;
 let timeLeft = startTime;
 
 const soundsDiv = document.getElementById("sounds");
@@ -7,12 +7,14 @@ const startSoundPath = soundsDiv.getAttribute("data-start-sound");
 const halfTimeSoundPath = soundsDiv.getAttribute("data-half-sound");
 const oneMinuteSoundPath = soundsDiv.getAttribute("data-one-minute-sound");
 const wrongAnswerSoundPath = soundsDiv.getAttribute("data-wrong-answer-sound");
+const rightAnswerSoundPath = soundsDiv.getAttribute("data-right-answer-sound");
 
 // Carregar os sons WAV usando os caminhos passados
 const startSound = new Audio(startSoundPath); // Som de início
 const halfTimeSound = new Audio(halfTimeSoundPath); // Som de meio tempo
 const oneMinuteSound = new Audio(oneMinuteSoundPath); // Som de 1 minuto
 const wrongAnswerSound = new Audio(wrongAnswerSoundPath); // Som de resposta errada
+const rightAnswerSound = new Audio(rightAnswerSoundPath); // Som de resposta correta
 
 // Criar o elemento do timer
 const countdownDisplay = document.createElement("p");
@@ -62,6 +64,14 @@ socket.addEventListener('message', function (event) {
             clearInterval(countdownInterval);
         }
     }
+
+    if(data.type === 'right_answer'){
+        rightAnswerSound.play();
+    }
+
+    if (data.type === 'lose_game') {
+        window.location.href = `${data.url}/${data.message}`; // Redirect to lose page
+    }
 });
 
 // Atualiza o display inicial
@@ -97,6 +107,10 @@ function startCountdown() {
             if (startButton) {
                 startButton.disabled = true;
             }
+
+            socket.send(JSON.stringify({
+                type: 'lose_game'
+            }));
         }
     }, 1000);
 }

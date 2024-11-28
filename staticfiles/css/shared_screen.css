@@ -26,11 +26,12 @@
     font-size: 3.5rem;
     font-family: Poppins;
     font-weight: bold;
-    border:0.5rem solid black;
+    border: 0.5rem solid black;
     margin: 0;
     padding: 0.2rem;
     min-width: 6rem;
-    width: 15vw;
+    width: 10vw;
+    height: 7vh;
 }
 .elements{
     z-index: 100;
@@ -75,6 +76,7 @@
     align-items: center;
     font-family: Poppins;
     padding: 1rem;
+    width: 80%;
 }
 
 .room_info img {
@@ -84,66 +86,85 @@
 
 #Bercario {
     clip-path: polygon(0% 25%, 90% 0%, 82% 100%, 8% 100%);
-    background-color: #33cc69;
-    top: 49%;
-    left: 14.7%;
-    width: 17%;
-    height: 23.5%;
-
+    background-color: transparent;
+    top: 54vh;
+    left: 20vw;
+    width: 13.5vw;
+    height: 18vh;
 }
 
 #Escritorio {
     clip-path: polygon(6% 20%, 85% 2%, 100% 100%, 0% 100%);
-    background-color: #33cc69;
-    top: 43.3%;
-    left: 30%;
-    width: 18.4%;
-    height: 29.3%;
+    background-color: transparent;
+    top: 48%;
+    left: 33%;
+    width: 14.5%;
+    height: 24%;
 }
 
 #CasaDeBanho {
     clip-path: polygon(0% 10%, 76% 0%, 76% 80%, 15% 80%);
-    background-color: #ADFF2F;
-    top: 39%;
+    background-color: transparent;
+    top: 45%;
     left: 47%;
-    width: 17%;
-    height: 42%;
+    width: 14%;
+    height: 34%;
 }
 
 #Cozinha {
-    clip-path: polygon(1% 0%, 80% 0%, 76% 40%, 100% 100%, 11% 100%);
-    background-color: #87CEEB;
-    top: 74.5%;
-    left: 16.3%;
-    width: 21.8%;
-    height: 25.5%;
+    clip-path: polygon(0% 0%, 72% 0%, 66% 36%, 100% 100%, 13% 100%);
+    background-color: transparent;
+    bottom: 0.5%;
+    left: 21.7%;
+    width: 15.5%;
+    height: 23%;
 }
 
 #Sotao {
-    clip-path: polygon(16% 10%, 81% 0%, 92% 100%, 10% 75%);
-    background-color: black;
-    top: 39%;
-    left: 68%;
-    width: 15.8%;
-    height: 25.5%;
+    clip-path: polygon(16% 10%, 81% 0%, 89% 100%, 10% 75%);
+    background-color: transparent;
+    top: 45.2%;
+    left: 65%;
+    width: 13%;
+    height: 20%;
 }
 
 #Quarto {
     clip-path: polygon(0% 0%, 95% 40%, 92.5% 88%, 0% 100%);
-    background-color: white;
-    top: 56%;
-    left: 61.2%;
-    width: 25%;
-    height: 30.5%;
+    background-color: transparent;
+    top: 59.5%;
+    left: 59.5%;
+    width: 20.2%;
+    height: 24.2%;
 }
 
 #Garagem {
-    clip-path: polygon(0% 27%, 92% 1%, 89.5% 100%, 0% 100%);
-    background-color: brown;
-    bottom: 0%;
-    left: 61.2%;
-    width: 25%;
-    height: 15.5%;
+    clip-path: polygon(0% 23%, 92% 1%, 89.5% 100%, 0% 100%);
+    background-color: transparent;
+    bottom: 0.5%;
+    left: 59.5%;
+    width: 20%;
+    height: 14.5%;
 }
 
+#Sala {
+    clip-path: polygon(5% 0%, 86% 0%, 100% 100%, 33% 100%, 0% 35%);
+    background-color: transparent;
+    bottom: 0.6%;
+    left: 33.7%;
+    width: 16.5%;
+    height: 22.7%;
+}
+
+#Hall {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 25% 100%);
+    background-color: transparent;
+    bottom: 0.6%;
+    left: 49.8%;
+    width: 7.7%;
+    height: 22.7%;
+    
+    display: flex;
+    flex-direction: column;
+}
 

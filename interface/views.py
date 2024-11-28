@@ -16,26 +16,79 @@ Access_Code = {
     'Sotao' : 'Xxyowi5wEloR',
     'CasaDeBanho' : 'ONLh8LwgN8oN',
     'Escritorio' : 'BAlzmc9z282p',
-    'Berçario' : 'MZlqqrfMoKZv',
+    'Bercario' : 'MZlqqrfMoKZv',
+    'Hall': 'A7F9K2L8T3Z6',
 }
 
 Acoes = [
-    "So pode falar sim e nao",
-    "So gestos",
+    "You can only communicate by saying YES and NO.",
+    "You can only communicate by gestures",
     "So NSFW",
     "Especialista em BitCoin"
 ]
 
 Acoes_used = []
 
+Counter = 0
 
 @csrf_exempt
 def render_room(request):
-    player =  Player.objects.filter(request.GET.get('player'))
-    room = player.character.room.name
-    room_name = room + '.html'
-    return render(request, room_name)
+    try:
+        data = json.loads(request.body)
+        player_id = data.get('player')
+        direcao = data.get('direcao')
 
+        if not player_id or not direcao:
+            return JsonResponse({'error': 'Dados inválidos'}, status=400)
+
+        # Obter o jogador e a sala atual
+        player = Player.objects.filter(id=player_id).first()
+        current_room = player.character.room
+
+        # Obter as salas descobertas e ordená-las
+        discovered_rooms = list(player.discovered_rooms.all())
+
+        # Determinar a posição da sala atual
+        try:
+            current_index = discovered_rooms.index(current_room)
+        except ValueError:
+            return JsonResponse({'error': 'Sala atual não encontrada nas descobertas'}, status=404)
+
+        # Determinar a próxima sala com base na direção
+        if direcao == 'esquerda' and current_index > 0:
+            next_room = discovered_rooms[current_index - 1]
+        elif direcao == 'direita' and current_index < len(discovered_rooms) - 1:
+            next_room = discovered_rooms[current_index + 1]
+        else:
+            return JsonResponse({'error': 'Movimento inválido'}, status=400)
+        
+        
+
+        # Atualizar a sala do jogador
+        player.character.room = next_room
+        player.character.save()
+
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            'game_lobby', 
+            {
+                'type': 'change_room',
+                'currentRoom': current_room.name,
+                'nextRoom': next_room.name,
+                'playerData': {
+                    'name': player.name,
+                    'skin_url': player.character.avatar.url,
+                }
+            }
+        )
+
+        next_room_url = '/game/' + next_room.name + '/'+ Access_Code[next_room.name]
+
+        return JsonResponse({'redirect_url': next_room_url})
+
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'JSON inválido'}, status=400)
+    
 @csrf_exempt
 def render_join(request):
     return render(request, 'join_game.html')
@@ -109,11 +162,18 @@ def render_game_room(request, room_name, key):
 
     room = Room.objects.filter(name=room_name).first()  # Get the first Room object with the given name
     character = Character.objects.filter(room=room).exclude(rule="default").first()
-
+    player = Player.objects.filter(character=character).first()
 
     if not room:
         print("Erro na sala")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    
+    if room.perms:
+        print("Last Room")
+        print(room.name)
+        print(character.rule)
+        character.last_room = True
+        character.save()
 
     context = {
         'room_name': room_name,
@@ -125,7 +185,26 @@ def render_game_room(request, room_name, key):
         'skin': character.skin.url,
     }
     
+    # Obter as salas descobertas
+    discovered_rooms = list(player.discovered_rooms.all())
+
+    if len(discovered_rooms) > 1: 
+        current_index = discovered_rooms.index(room)
+        
+        if current_index == 0:  # Primeira sala
+            context['right_arrow'] = True
+        elif current_index == len(discovered_rooms) - 1:  # Última sala
+            context['left_arrow'] = True
+        else:  # Sala do meio
+            context['right_arrow'] = True
+            context['left_arrow'] = True
+    
     return render(request, 'game_room.html', context)
+
+@csrf_exempt
+def render_end(request, message):
+    context = {'message': message}
+    return render(request, 'end_game.html', context)
 
 @csrf_exempt
 def register(request):
@@ -158,11 +237,14 @@ def associate_char(request):
         player = Player.objects.get(id=player_id)
         character = Character.objects.get(id=character_id)
 
-        room = Room.objects.filter(perms=False, ocupied=False).first() #Perms = false significa sala incial para mudança de sala procurar pelas perms = true
+        room = Room.objects.filter(perms=False, ocupied=False, final=False).first() #Perms = false significa sala incial para mudança de sala procurar pelas perms = true
 
         character.room = room
 
         player.character = character
+
+        player.discovered_rooms.add(room)
+        player.current_room = room
 
         if room:
             room.ocupied = True
@@ -211,8 +293,12 @@ def finish_game(request):
     Player.objects.all().delete()
     Character.objects.update(rule='default')
     Room.objects.update(ocupied=False)
+    Character.objects.update(last_room=False)
+    global Counter
+    global Acoes_used
+    Counter = 0
+    Acoes_used = []
     return render(request, 'join_game.html')
-
 
 @csrf_exempt
 def check_answer(request):
@@ -227,15 +313,24 @@ def check_answer(request):
 
     if not room:
         return HttpResponseForbidden()
-    
+
     if answer == room.answer:
         print('Resposta correta')
-        # Marcar a sala atual como desocupada
-        room.ocupied = False
-        room.save()
 
-        # Encontrar a próxima sala disponível
-        next_room = Room.objects.filter(perms=True, ocupied=False).first()
+        if character.last_room:
+            print("3 sala")
+            global Counter
+            Counter += 1
+            next_room = Room.objects.filter(final=True).first()
+
+        else:
+            print("2 sala")
+            # Marcar a sala atual como desocupada
+            room.ocupied = False
+            room.save()
+
+            # Encontrar a próxima sala disponível
+            next_room = Room.objects.filter(perms=True, ocupied=False, final=False).first()
 
         # Atualizar a próxima sala para ocupada
         if next_room:
@@ -244,6 +339,10 @@ def check_answer(request):
 
             player.character.room = next_room
             character.room = next_room
+
+            player.discovered_rooms.add(next_room)
+            player.current_room = next_room
+
             player.save()
             character.save()
 
@@ -261,6 +360,13 @@ def check_answer(request):
                         'name': player.name,
                         'skin_url': player.character.avatar.url,
                     }
+                }
+            )
+
+            async_to_sync(channel_layer.group_send)(
+                'game_lobby', 
+                {
+                    'type': 'right_answer',
                 }
             )
 

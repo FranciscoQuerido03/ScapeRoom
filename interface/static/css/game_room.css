@@ -280,6 +280,7 @@ body {
   color: white;
   max-width: 20vw;
   font-size: 3vh;
+  text-align: center;
 }
 
 #puzzlebutton {
@@ -337,4 +338,31 @@ body {
 .modal-content-infos p {
   margin: 0;
   flex: 1;
+}
+.arrows {
+  position: absolute;
+  z-index: 1;
+  width: 100vw;
+  height: fit-content;
+  bottom: 3vh;
+  display: flex; 
+  align-items: center;
+  justify-content: space-between;
+}
+
+#left_arrow {
+  position: absolute;
+  left: 5vw; 
+  bottom: 0.5vh;
+}
+
+#right_arrow {
+  position: absolute;
+  right: 5vw;
+  bottom: 0.5vh;
+}
+
+.arrows img {
+  height: 10vh;
+  cursor: pointer;
 }
