@@ -23,8 +23,8 @@ Access_Code = {
 Acoes = [
     "You can only communicate by saying YES and NO.",
     "You can only communicate by gestures",
-    "So NSFW",
-    "Especialista em BitCoin"
+    "You can only communicate by lying",
+    "You can only communicate when someone calls you",
 ]
 
 Acoes_used = []
