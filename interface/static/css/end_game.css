@@ -32,11 +32,35 @@ p {
 }
 
 .Vitória {
+    display: inline-block;
     color: green;
     font-size: 5vw;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Animação de vitória */
+.vitoria-animacao {
+    animation: aumentarAbanar 2s ease-in-out;
+}
+
+@keyframes aumentarAbanar {
+    0% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.2) rotate(-5deg); }
+    50% { transform: scale(1.4) rotate(5deg); }
+    75% { transform: scale(1.2) rotate(-5deg); }
+    100% { transform: scale(1) rotate(0deg); }
 }
 
 .Derrota {
     color: red;
     font-size: 5vw;
+    display: inline-block;
+    white-space: pre; /* Garante que os espaços são respeitados */
+    border-right: 2px solid #721c24; /* Cursor piscando */
+    animation: blink-cursor 0.5s step-end infinite;
+}
+
+@keyframes blink-cursor {
+    from { border-right-color: #721c24; }
+    to { border-right-color: transparent; }
 }
