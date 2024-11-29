@@ -5,16 +5,13 @@ function victory() {
     win_sound.play();
     confetti();
 
-    // Seleciona o elemento com a classe "Vitória"
     const elementoTexto = document.querySelector(".Vitória");
     if (elementoTexto) {
-        // Adiciona a classe para animação
         elementoTexto.classList.add("vitoria-animacao");
 
-        // Remove a classe após a animação para permitir reuso
         setTimeout(() => {
             elementoTexto.classList.remove("vitoria-animacao");
-        }, 2000); // Duração da animação (2 segundos)
+        }, 2000); 
     }
 }
 
