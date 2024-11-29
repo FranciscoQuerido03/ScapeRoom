@@ -9,6 +9,7 @@ class Room(models.Model):
     skin_puzzle = models.ImageField(upload_to='skins/', default='skins/default_image.jpg')
     answer = models.CharField(max_length=50, default='')
     final = models.BooleanField(default=False)
+    answers_to = models.ForeignKey('Room', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
