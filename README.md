@@ -66,6 +66,8 @@ O projeto estará disponível no navegador em `http://0.0.0.0:8000`.
    python manage.py runserver 0.0.0.0:8000
    ```
 ## 8. Aceder ao Servidor
+### Desligar a Firewall (na máquina onde está a correr o servidor)
+ Painel de Controlo > Firewall do Windows Defender > Alterar definições de notificação
 ### Na própria máquina
 `http://localhost:8000`
 ### Noutras máquinas
