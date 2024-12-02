@@ -330,7 +330,7 @@ def check_answer(request):
             room.save()
 
             # Encontrar a próxima sala disponível
-            next_room = Room.objects.filter(perms=True, ocupied=False, final=False).exclude(name=room.answers_to.name).first()
+            next_room = Room.objects.filter(perms=True, ocupied=False, final=False).exclude(answers_to=room).first()
 
         # Atualizar a próxima sala para ocupada
         if next_room:
