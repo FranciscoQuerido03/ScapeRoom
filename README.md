@@ -55,5 +55,23 @@ O projeto estará disponível no navegador em `http://0.0.0.0:8000`.
 
 **Nota:** Caso ocorra algum erro durante o uso do servidor, acede à rota `/finish_game` para reiniciar e tentar novamente.
 
+## 7. Iniciar servidor depois da instalação
+   ```bash
+   cd .\ScapeRoom\
+   ```
+ ```bash
+   .\venv\Scripts\activate
+   ```
+ ```bash
+   python manage.py runserver 0.0.0.0:8000
+   ```
+## 8. Aceder ao Servidor
+### Na própria máquina
+`http://localhost:8000`
+### Noutras máquinas
+`http://IP_DA_MAQUINA:8000`
+
+
+
 
 
